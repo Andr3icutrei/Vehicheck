@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vehicheck.Database.Entities;
 
 namespace Vehicheck.Database.Repositories.Interfaces
 {
-    internal interface IComponentManufacturer
+    public interface IComponentManufacturerRepository : IBaseRepository<ComponentManufacturer>
     {
+        Task<ComponentManufacturer> AddComponentAsync(ComponentManufacturer componentManufacturer);
+        Task<ComponentManufacturer?> GetComponentManufacturerAsync(int id);
+        Task<List<ComponentManufacturer>> GetAllComponentsAsync();  
     }
 }

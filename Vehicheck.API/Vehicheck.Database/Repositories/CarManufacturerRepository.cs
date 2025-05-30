@@ -14,7 +14,7 @@ namespace Vehicheck.Database.Repositories
     {
         private readonly VehicheckDbContext _context = databaseContext;
 
-        public async Task<CarManufacturer?> GetCarManufacturerId(int manufacturerId)
+        public async Task<CarManufacturer?> GetCarManufacturerAsync(int manufacturerId)
         {
             return await _context.CarManufacturers
                 .Include(cm => cm.Cars)
@@ -23,7 +23,7 @@ namespace Vehicheck.Database.Repositories
                 .FirstOrDefaultAsync(cm => cm.Id == manufacturerId);
         }
 
-        public async Task<List<CarManufacturer>> GetAllCarManufacturer()
+        public async Task<List<CarManufacturer>> GetCarManufacturersAsync()
         {
             return await _context.CarManufacturers
                 .Include(cm => cm.Cars)
