@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Requests;
 using Vehicheck.Core.Dtos.Responses.Get;
+using Vehicheck.Database.Entities;
 
 namespace Vehicheck.Core.Services.Interfaces
 {
@@ -12,6 +13,6 @@ namespace Vehicheck.Core.Services.Interfaces
     {
         Task<GetComponentManufacturerDto?> GetComponentManufacturerAsync(int id);
         Task<List<GetComponentManufacturerDto>> GetComponentManufacturesAsync();
-        Task AddComponentManufactureAsync(AddComponentManufacturerRequest payload);
+        Task<ComponentManufacturer> AddComponentManufactureAsync(AddComponentManufacturerRequest payload);
     }
 }

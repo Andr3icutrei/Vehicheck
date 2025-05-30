@@ -90,7 +90,7 @@ namespace Vehicheck.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     ReleaseYear = table.Column<int>(type: "int", nullable: false),
-                    CarManufacturerId = table.Column<int>(type: "int", nullable: true),
+                    CarManufacturerId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -102,7 +102,8 @@ namespace Vehicheck.Database.Migrations
                         name: "FK_CarModels_CarManufacturers_CarManufacturerId",
                         column: x => x.CarManufacturerId,
                         principalTable: "CarManufacturers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,7 +114,7 @@ namespace Vehicheck.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
-                    ComponentManufacturerId = table.Column<int>(type: "int", nullable: true),
+                    ComponentManufacturerId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -125,7 +126,8 @@ namespace Vehicheck.Database.Migrations
                         name: "FK_Components_ComponentManufacturers_ComponentManufacturerId",
                         column: x => x.ComponentManufacturerId,
                         principalTable: "ComponentManufacturers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,9 +138,9 @@ namespace Vehicheck.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     YearOfManufacture = table.Column<int>(type: "int", nullable: false),
                     CarMileage = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    CarModelId = table.Column<int>(type: "int", nullable: true),
-                    CarManufacturerId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CarModelId = table.Column<int>(type: "int", nullable: false),
+                    CarManufacturerId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -150,17 +152,20 @@ namespace Vehicheck.Database.Migrations
                         name: "FK_Cars_CarManufacturers_CarManufacturerId",
                         column: x => x.CarManufacturerId,
                         principalTable: "CarManufacturers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Cars_CarModels_CarModelId",
                         column: x => x.CarModelId,
                         principalTable: "CarModels",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Cars_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,8 +175,8 @@ namespace Vehicheck.Database.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MillageAtFix = table.Column<int>(type: "int", nullable: false),
-                    FixId = table.Column<int>(type: "int", nullable: true),
-                    ComponentId = table.Column<int>(type: "int", nullable: true),
+                    FixId = table.Column<int>(type: "int", nullable: false),
+                    ComponentId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -183,12 +188,14 @@ namespace Vehicheck.Database.Migrations
                         name: "FK_ComponentsFixes_Components_ComponentId",
                         column: x => x.ComponentId,
                         principalTable: "Components",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ComponentsFixes_Fixes_FixId",
                         column: x => x.FixId,
                         principalTable: "Fixes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,13 +216,13 @@ namespace Vehicheck.Database.Migrations
                         column: x => x.CarId,
                         principalTable: "Cars",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CarsComponents_Components_ComponentId",
                         column: x => x.ComponentId,
                         principalTable: "Components",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

@@ -19,7 +19,7 @@ namespace Vehicheck.Core.Mapping
                 LastName = self.LastName,
                 Email = self.Email,
                 Phone = self.Phone,
-                Password = self.Password,
+                Password = User.HashPassword(self.PasswordHash,self.Salt),
                 Cars = self.Cars.ToList().Select(c => c.ToDto()).ToList()
             };
         }

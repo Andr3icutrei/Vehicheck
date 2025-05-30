@@ -12,8 +12,8 @@ using Vehicheck.Database.Context;
 namespace Vehicheck.Database.Migrations
 {
     [DbContext(typeof(VehicheckDbContext))]
-    [Migration("20250528082644_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250530202312_PasswordHashingFeature")]
+    partial class PasswordHashingFeature
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,13 +33,13 @@ namespace Vehicheck.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CarManufacturerId")
+                    b.Property<int>("CarManufacturerId")
                         .HasColumnType("int");
 
                     b.Property<int>("CarMileage")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CarModelId")
+                    b.Property<int>("CarModelId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -51,7 +51,7 @@ namespace Vehicheck.Database.Migrations
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("YearOfManufacture")
@@ -127,7 +127,7 @@ namespace Vehicheck.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CarManufacturerId")
+                    b.Property<int>("CarManufacturerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -162,7 +162,7 @@ namespace Vehicheck.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ComponentManufacturerId")
+                    b.Property<int>("ComponentManufacturerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -198,7 +198,7 @@ namespace Vehicheck.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ComponentId")
+                    b.Property<int>("ComponentId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -207,7 +207,7 @@ namespace Vehicheck.Database.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("FixId")
+                    b.Property<int>("FixId")
                         .HasColumnType("int");
 
                     b.Property<int>("MillageAtFix")
@@ -321,17 +321,25 @@ namespace Vehicheck.Database.Migrations
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -340,15 +348,21 @@ namespace Vehicheck.Database.Migrations
                 {
                     b.HasOne("Vehicheck.Database.Entities.CarManufacturer", "CarManufacturer")
                         .WithMany("Cars")
-                        .HasForeignKey("CarManufacturerId");
+                        .HasForeignKey("CarManufacturerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Vehicheck.Database.Entities.CarModel", "CarModel")
                         .WithMany("Cars")
-                        .HasForeignKey("CarModelId");
+                        .HasForeignKey("CarModelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Vehicheck.Database.Entities.User", "User")
                         .WithMany("Cars")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("CarManufacturer");
 
@@ -362,13 +376,13 @@ namespace Vehicheck.Database.Migrations
                     b.HasOne("Vehicheck.Database.Entities.Car", "Car")
                         .WithMany("Components")
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Vehicheck.Database.Entities.Component", "Component")
                         .WithMany("Cars")
                         .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Car");
@@ -380,7 +394,9 @@ namespace Vehicheck.Database.Migrations
                 {
                     b.HasOne("Vehicheck.Database.Entities.CarManufacturer", "Manufacturer")
                         .WithMany("Models")
-                        .HasForeignKey("CarManufacturerId");
+                        .HasForeignKey("CarManufacturerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Manufacturer");
                 });
@@ -389,7 +405,9 @@ namespace Vehicheck.Database.Migrations
                 {
                     b.HasOne("Vehicheck.Database.Entities.ComponentManufacturer", "Manufacturer")
                         .WithMany("Components")
-                        .HasForeignKey("ComponentManufacturerId");
+                        .HasForeignKey("ComponentManufacturerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Manufacturer");
                 });
@@ -398,11 +416,15 @@ namespace Vehicheck.Database.Migrations
                 {
                     b.HasOne("Vehicheck.Database.Entities.Component", "Component")
                         .WithMany("Fixes")
-                        .HasForeignKey("ComponentId");
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Vehicheck.Database.Entities.Fix", "Fix")
                         .WithMany("Components")
-                        .HasForeignKey("FixId");
+                        .HasForeignKey("FixId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Component");
 

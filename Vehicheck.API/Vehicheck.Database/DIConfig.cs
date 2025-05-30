@@ -13,7 +13,7 @@ namespace Vehicheck.Database
 {
     public static class DIConfig
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddDbContext<VehicheckDbContext>();
             services.AddScoped<DbContext, VehicheckDbContext>();

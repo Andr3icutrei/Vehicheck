@@ -14,5 +14,17 @@ namespace Vehicheck.Core.Dtos.Requests
         public int UserId { get; set; }
         public int CarModelId { get; set; }
         public int CarManufacturerId { get; set; }
+
+        public Car ToEntity()
+        {
+            return new Car
+            {
+                YearOfManufacture = YearOfManufacture,
+                CarMileage = CarMileage,
+                UserId = UserId,
+                CarModelId = CarModelId,
+                CarManufacturerId = CarManufacturerId
+            };
+        }
     }
 }

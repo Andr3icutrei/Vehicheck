@@ -7,7 +7,7 @@ using Vehicheck.Database.Entities;
 
 namespace Vehicheck.Database.Repositories.Interfaces
 {
-    internal interface ICarModelRepository : IBaseRepository<CarModel>
+    public interface ICarModelRepository : IBaseRepository<CarModel>
     {
         Task<CarModel?> GetCarModelAsync(int modelId);
         Task<List<CarModel>> GetAllCarModelsAsync();

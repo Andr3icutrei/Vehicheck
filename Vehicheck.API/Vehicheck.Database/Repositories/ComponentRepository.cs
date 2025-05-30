@@ -14,7 +14,7 @@ namespace Vehicheck.Database.Repositories
     {
         private readonly VehicheckDbContext _context = databaseContext;
 
-        public async Task<Component?> GetComponentId(int componentId)
+        public async Task<Component?> GetComponentAsync(int componentId)
         {
             return await _context.Components
                 .Include(c => c.Manufacturer)
@@ -26,7 +26,7 @@ namespace Vehicheck.Database.Repositories
                 .FirstOrDefaultAsync(c => c.Id == componentId);
         }
 
-        public async Task<List<Component>> GetAllComponent()
+        public async Task<List<Component>> GetAllComponentsAsync()
         {
             return await _context.Components
                 .Include(c => c.Manufacturer)

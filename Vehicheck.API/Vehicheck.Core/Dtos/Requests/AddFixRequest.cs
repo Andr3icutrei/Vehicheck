@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vehicheck.Database.Entities;
 
 namespace Vehicheck.Core.Dtos.Requests
 {
@@ -12,5 +13,14 @@ namespace Vehicheck.Core.Dtos.Requests
     {
         public string Description { get; set; }
         public decimal Price { get; set; }
+
+        public Fix ToEntity()
+        {
+            return new Fix
+            {
+                Description = Description,
+                Price = Price
+            };
+        }
     }
 }

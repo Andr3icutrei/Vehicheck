@@ -8,6 +8,7 @@ using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Repositories.Interfaces;
 using Vehicheck.Core.Mapping;
+using Vehicheck.Database.Entities;
 
 namespace Vehicheck.Core.Services
 {
@@ -20,9 +21,10 @@ namespace Vehicheck.Core.Services
             _repository = repository;
         }
 
-        public async Task AddCarManufacturerAsync(AddCarManufacturerRequest payload)
+        public async Task<CarManufacturer> AddCarManufacturerAsync(AddCarManufacturerRequest payload)
         {
-            await _repository.AddCarManufacturerAsync(payload.ToEntity());
+            var result = await _repository.AddCarManufacturerAsync(payload.ToEntity());
+            return result;
         }
 
         public async Task<GetCarManufacturerDto?> GetCarManufacturerAsync(int id)
@@ -31,7 +33,7 @@ namespace Vehicheck.Core.Services
             return carManufacturer?.ToDto();
         }
 
-        public async Task<List<GetCarManufacturerDto>> GetCarManufacturersAsync()
+        public async Task<List<GetCarManufacturerDto>> GetAllCarManufacturersAsync()
         {
             List<GetCarManufacturerDto> toReturn = new List<GetCarManufacturerDto>();
             foreach(var carManufacturer in await _repository.GetCarManufacturersAsync())

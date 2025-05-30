@@ -16,10 +16,10 @@ namespace Vehicheck.Database.Entities
         public DateTime? DeletedAt { get; set; }
 
         // navigation properties
-        public int? CarId { get; set; }
-        public Car? Car { get; set; }
+        public int CarId { get; set; }
+        public Car Car { get; set; }
 
-        public int? ComponentId { get; set; }
-        public Component? Component { get; set; }
+        public int ComponentId { get; set; }
+        public Component Component { get; set; }
     }
 }

@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Requests;
 using Vehicheck.Core.Dtos.Responses.Get;
+using Vehicheck.Database.Entities;
 
 namespace Vehicheck.Core.Services.Interfaces
 {
     public interface ICarService
     {
         Task<GetCarDto?> GetCarAsync(int id);
-        Task<List<GetCarDto>> GetCarSAsync();
-        Task AddCarAsync(AddCarRequest payload);
+        Task<List<GetCarDto>> GetCarsAsync();
+        Task<Car> AddCarAsync(AddCarRequest payload);
     }
 }

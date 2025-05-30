@@ -18,8 +18,8 @@ namespace Vehicheck.Database.Entities
         public decimal Price {  get; set; }
 
         // navigation properties
-        public int? ComponentManufacturerId { get; set; }
-        public ComponentManufacturer? Manufacturer { get; set; } 
+        public int ComponentManufacturerId { get; set; }
+        public ComponentManufacturer Manufacturer { get; set; } 
 
         public ICollection<CarComponent> Cars { get; set; } = new List<CarComponent>();
         public ICollection<ComponentFix> Fixes { get; set; } = new List<ComponentFix>();
