@@ -13,14 +13,14 @@ namespace Vehicheck.Database.Entities
         
         // navigation properties 
 
-        public int? UserId { get; set; }
-        public User? User { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
 
-        public int? CarModelId { get; set; }
-        public CarModel? CarModel { get; set; }
+        public int CarModelId { get; set; }
+        public CarModel CarModel { get; set; }
 
-        public int? CarManufacturerId { get; set; }
-        public CarManufacturer? CarManufacturer { get; set; }
+        public int CarManufacturerId { get; set; }
+        public CarManufacturer CarManufacturer { get; set; }
         
         public ICollection<CarComponent> Components { get; set; } = new List<CarComponent>();
     }

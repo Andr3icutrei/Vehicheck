@@ -14,8 +14,8 @@ namespace Vehicheck.Database.Entities
         public int ReleaseYear { get; set; }
 
         //navigation properties 
-        public int? CarManufacturerId { get; set; }
-        public CarManufacturer? Manufacturer { get; set; }
+        public int CarManufacturerId { get; set; }
+        public CarManufacturer Manufacturer { get; set; }
 
         public ICollection<Car> Cars { get; set; } = new List<Car>();   
     }

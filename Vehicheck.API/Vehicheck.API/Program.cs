@@ -1,8 +1,13 @@
+using Vehicheck.Core;
+using Vehicheck.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddServices();
+builder.Services.AddRepositories();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

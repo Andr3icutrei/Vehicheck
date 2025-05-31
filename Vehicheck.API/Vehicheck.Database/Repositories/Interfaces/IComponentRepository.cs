@@ -7,12 +7,11 @@ using Vehicheck.Database.Entities;
 
 namespace Vehicheck.Database.Repositories.Interfaces
 {
-    internal interface IComponentRepository : IBaseRepository<Component>
+    public interface IComponentRepository : IBaseRepository<Component>
     {
-        Task<Component?> GetComponentId(int componentId);
-        Task<List<Component>> GetAllComponent();
+        Task<Component?> GetComponentAsync(int componentId);
+        Task<List<Component>> GetAllComponentsAsync();
         Task<Component> AddComponentAsync(Component component);
         Task<Component> UpdateComponentAsync(Component component);
-
     }
 }

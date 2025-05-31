@@ -9,10 +9,9 @@ namespace Vehicheck.Database.Repositories.Interfaces
 {
     public interface ICarRepository : IBaseRepository<Car>
     {
-        Task<Car?> GetCarId(int carId);
-        Task<List<Car>> GetAllCars();
+        Task<Car?> GetCarAsync(int carId);
+        Task<List<Car>> GetAllCarsAsync();
         Task<Car> AddCarAsync(Car car);
         Task<Car> UpdateCarAsync(Car car);
-
     }
 }

@@ -27,6 +27,32 @@ namespace Vehicheck.Database.Context
             }
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder); 
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes()
+                .SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            // User entity configuration for password hashing
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.PasswordHash)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Salt)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.HasIndex(e => e.Email)
+                    .IsUnique();
+            });
+        }
+
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarComponent> CarsComponents { get;set; }
         public DbSet<CarManufacturer> CarManufacturers { get; set; }

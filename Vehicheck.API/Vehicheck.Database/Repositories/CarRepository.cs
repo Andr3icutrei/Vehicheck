@@ -10,10 +10,10 @@ using Vehicheck.Database.Repositories.Interfaces;
 
 namespace Vehicheck.Database.Repositories
 {
-    internal class CarRepository(VehicheckDbContext databaseContext) : BaseRepository<Car>(databaseContext), ICarRepository
+    public class CarRepository(VehicheckDbContext databaseContext) : BaseRepository<Car>(databaseContext), ICarRepository
     {
         private readonly VehicheckDbContext _context = databaseContext;
-        public async Task<Car?> GetCarId(int carId)
+        public async Task<Car?> GetCarAsync(int carId)
         {
             return await _context.Cars
                 .Include(c => c.User)
@@ -25,7 +25,7 @@ namespace Vehicheck.Database.Repositories
                 .FirstOrDefaultAsync(c => c.Id == carId);
         }
 
-        public async Task<List<Car>> GetAllCars()
+        public async Task<List<Car>> GetAllCarsAsync()
         {
             return await _context.Cars
                 .Include(c => c.User)
