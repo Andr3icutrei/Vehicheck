@@ -37,5 +37,9 @@ namespace Vehicheck.Core.Services
             var result = await _repository.GetAllFixesAsync();
             return result.Select(f => f.ToDto()).ToList();
         }
+        public async Task<bool> DeleteFixAsync(int id)
+        {
+            return await _repository.DeleteFixAsync(id);
+        }
     }
 }

@@ -41,5 +41,16 @@ namespace Vehicheck.Database.Repositories
                 .Include(u => u.Cars.Where(c => c.DeletedAt == null))
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task<bool> DeleteUserAsync(int id)
+        {
+            var user = await GetFirstOrDefaultAsync(id);
+            if (user == null)
+                return false;
+
+            SoftDelete(user);
+            await SaveChangesAsync();
+            return true;
+        }
     }
 }

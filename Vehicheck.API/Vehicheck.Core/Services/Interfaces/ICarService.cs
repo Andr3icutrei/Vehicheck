@@ -14,5 +14,6 @@ namespace Vehicheck.Core.Services.Interfaces
         Task<GetCarDto?> GetCarAsync(int id);
         Task<List<GetCarDto>> GetCarsAsync();
         Task<Car> AddCarAsync(AddCarRequest payload);
+        Task<bool> DeleteCarAsync(int id);
     }
 }

@@ -14,5 +14,6 @@ namespace Vehicheck.Core.Services.Interfaces
         Task<GetComponentManufacturerDto?> GetComponentManufacturerAsync(int id);
         Task<List<GetComponentManufacturerDto>> GetComponentManufacturesAsync();
         Task<ComponentManufacturer> AddComponentManufactureAsync(AddComponentManufacturerRequest payload);
+        Task<bool> DeleteComponentManufacturerAsync(int id);
     }
 }
