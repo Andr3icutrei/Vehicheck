@@ -42,5 +42,16 @@ namespace Vehicheck.Database.Repositories
                 Include(cm => cm.Components.Where(c => c.DeletedAt == null)).
                 FirstOrDefaultAsync(cm => cm.Id == id);
         }
+
+        public async Task<bool> DeleteComponentManufacturerAsync(int id)
+        {
+            var componentManufacturer = await GetFirstOrDefaultAsync(id);
+            if (componentManufacturer == null)
+                return false;
+
+            SoftDelete(componentManufacturer);
+            await SaveChangesAsync();
+            return true;
+        }
     }
 }

@@ -37,5 +37,10 @@ namespace Vehicheck.Core.Services
             var result = await _repository.GetAllComponentsAsync();
             return result.Select(cm => cm.ToDto()).ToList();
         }
+
+        public async Task<bool> DeleteComponentManufacturerAsync(int id)
+        {
+            return await _repository.DeleteComponentManufacturerAsync(id);
+        }
     }
 }

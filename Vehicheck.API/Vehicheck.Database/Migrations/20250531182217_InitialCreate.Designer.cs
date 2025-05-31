@@ -12,8 +12,8 @@ using Vehicheck.Database.Context;
 namespace Vehicheck.Database.Migrations
 {
     [DbContext(typeof(VehicheckDbContext))]
-    [Migration("20250530202312_PasswordHashingFeature")]
-    partial class PasswordHashingFeature
+    [Migration("20250531182217_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

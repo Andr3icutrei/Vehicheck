@@ -69,5 +69,27 @@ namespace Vehicheck.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteCarAsync(int id)
+        {
+            try
+            {
+                var success = await _service.DeleteCarAsync(id);
+                if (!success)
+                {
+                    return NotFound($"Car with id {id} not found");
+                }
+                return Ok($"Car with id {id} deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting car with id {CarId}", id);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting data from the database");
+            }
+        }
     }
 }

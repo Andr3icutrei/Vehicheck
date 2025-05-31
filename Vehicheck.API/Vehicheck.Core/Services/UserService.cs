@@ -39,5 +39,10 @@ namespace Vehicheck.Core.Services
             var result = await _repository.GetAllAsync();
             return result.Select(u => u.ToDto()).ToList();   
         }
+
+        public async Task<bool> DeleteUserAsync(int id)
+        {
+            return await _repository.DeleteUserAsync(id);
+        }
     }
 }

@@ -43,5 +43,17 @@ namespace Vehicheck.Database.Repositories
                 .ThenInclude(cf => cf.Component)
                 .FirstOrDefaultAsync(f => f.Id == id);
         }
+
+        public async Task<bool> DeleteFixAsync(int id)
+        {
+            var fix = await GetFirstOrDefaultAsync(id);
+            if (fix == null)
+                return false;
+
+            SoftDelete(fix);
+            await SaveChangesAsync();
+            return true;
+        }
+
     }
 }

@@ -43,5 +43,10 @@ namespace Vehicheck.Core.Services
             return toReturn;
         }
 
+        public async Task<bool> DeleteCarManufacturerAsync(int id)
+        {
+            return await _repository.DeleteCarManufacturerAsync(id);
+        }
+
     }
 }
