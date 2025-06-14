@@ -9,6 +9,7 @@ using Vehicheck.Core.Mapping;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
 using Vehicheck.Database.Repositories.Interfaces;
+using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.Core.Services
 {
@@ -30,6 +31,12 @@ namespace Vehicheck.Core.Services
         public async Task<GetCarModelDto?> GetCarModelAsync(int id)
         {
             var result =  await _repository.GetCarModelAsync(id);
+
+            if (result == null)
+            {
+                throw new EntityNotFoundException("CarModel", id);
+            }
+
             return result?.ToDto();
         }
 
