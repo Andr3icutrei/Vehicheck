@@ -42,15 +42,8 @@ namespace Vehicheck.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<GetCarManufacturerDto>> GetCarManufacturerByIdAsync(int id)
         {
-            try
-            {
-                var result = await _service.GetCarManufacturerAsync(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
-            }
+            var result = await _service.GetCarManufacturerAsync(id);
+            return Ok(result);
         }
 
         [HttpGet()]

@@ -42,16 +42,9 @@ namespace Vehicheck.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<GetUserDto>> GetUserByIdAsync(int id)
-        {
-            try
-            {
-                var result = await _service.GetUserAsync(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
-            }
+        { 
+            var result = await _service.GetUserAsync(id);
+            return Ok(result);
         }
 
         [HttpGet()]

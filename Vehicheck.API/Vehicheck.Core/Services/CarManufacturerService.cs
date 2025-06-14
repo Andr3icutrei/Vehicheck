@@ -11,6 +11,7 @@ using Vehicheck.Database.Entities;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Database.PatchHelpers;
+using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.Core.Services
 {
@@ -32,6 +33,12 @@ namespace Vehicheck.Core.Services
         public async Task<GetCarManufacturerDto?> GetCarManufacturerAsync(int id)
         {
             var carManufacturer = await _repository.GetCarManufacturerAsync(id);
+
+            if(carManufacturer == null)
+            {
+                throw new EntityNotFoundException("CarManufacturer", id);
+            }
+
             return carManufacturer?.ToDto();
         }
 

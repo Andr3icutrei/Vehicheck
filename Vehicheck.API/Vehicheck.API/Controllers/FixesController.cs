@@ -44,16 +44,8 @@ namespace Vehicheck.API.Controllers
             [ProducesResponseType(StatusCodes.Status500InternalServerError)]
             public async Task<ActionResult<GetFixDto>> GetFixByIdAsync(int id)
             {
-                try
-                {
-                    var result = await _service.GetFixAsync(id);
-                    return Ok(result);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error retrieving fix with id {FixId}", id);
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
-                }
+                var result = await _service.GetFixAsync(id);
+                return Ok(result);   
             }
 
             [HttpGet]

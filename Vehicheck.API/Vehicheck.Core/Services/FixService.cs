@@ -11,6 +11,7 @@ using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
 using Vehicheck.Database.PatchHelpers;
 using Vehicheck.Database.Repositories.Interfaces;
+using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.Core.Services
 {
@@ -31,6 +32,12 @@ namespace Vehicheck.Core.Services
         public async Task<GetFixDto?> GetFixAsync(int id)
         {
             var result = await _repository.GetFixAsync(id);
+
+            if(result == null)
+            {
+                throw new EntityNotFoundException("Fix", id);
+            }
+
             return result.ToDto();
         }
 

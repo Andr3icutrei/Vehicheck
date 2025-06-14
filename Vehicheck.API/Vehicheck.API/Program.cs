@@ -1,6 +1,7 @@
 using Vehicheck.Core;
 using Vehicheck.Database;
 using Vehicheck.Infrastructure.Config;
+using Vehicheck.Infrastructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -26,6 +29,8 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 }
+
+app.UseRequestLogging();
 
 app.UseHttpsRedirection();
 
