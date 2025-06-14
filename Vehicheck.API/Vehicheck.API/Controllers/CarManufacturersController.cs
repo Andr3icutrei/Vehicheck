@@ -75,7 +75,7 @@ namespace Vehicheck.API.Controllers
                 {
                     return NotFound($"Car manufacturer with id {id} not found");
                 }
-                return Ok($"Car manufacturer with id {id} deleted successfully");
+                return StatusCode(StatusCodes.Status200OK,"Car manufacturer with id {id} deleted successfully");
             }
             catch (Exception ex)
             {
@@ -84,13 +84,21 @@ namespace Vehicheck.API.Controllers
             }
         }
 
-        //[HttpPatch]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //public async Task<ActionResult<CarManufacturer>> PatchCarManufacturerAsync([FromBody] PatchCarManufacturerRequest payload)
-        //{
-
-        //}
+        [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<CarManufacturer>> PatchCarManufacturerAsync([FromBody] PatchCarManufacturerRequest payload)
+        {
+            try
+            {
+                var result = await _service.PatchCarManufacturerAsync(payload);
+                return StatusCode(StatusCodes.Status200OK, "Car manufacturer patched!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error patching data from the database");
+            }
+        }
     }
 }

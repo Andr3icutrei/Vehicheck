@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Core.Mapping;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.PatchHelpers;
 using Vehicheck.Database.Repositories.Interfaces;
 using Vehicheck.Infrastructure.Exceptions;
 
@@ -49,6 +51,18 @@ namespace Vehicheck.Core.Services
         public async Task<bool> DeleteCarModelAsync(int id)
         {
             return await _repository.DeleteCarModelAsync(id);
+        }
+
+        public async Task<GetCarModelDto> PatchCarModelAsync(PatchCarModelRequest payload)
+        {
+            CarModel? carModel = await _repository.GetCarModelAsync(payload.Id);
+            PatchRequestToEntity.PatchFrom<PatchCarModelRequest, CarModel>(carModel, payload);
+
+            carModel.ModifiedAt = DateTime.UtcNow;
+
+            await _repository.SaveChangesAsync();
+
+            return carModel.ToDto();
         }
     }
 }

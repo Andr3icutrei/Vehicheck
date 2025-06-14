@@ -9,6 +9,8 @@ using Vehicheck.Database.Repositories.Interfaces;
 using Vehicheck.Core.Mapping;
 using Vehicheck.Database.Entities;
 using Vehicheck.Core.Dtos.Requests.Post;
+using Vehicheck.Core.Dtos.Requests.Patch;
+using Vehicheck.Database.PatchHelpers;
 using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.Core.Services
@@ -56,5 +58,16 @@ namespace Vehicheck.Core.Services
             return await _repository.DeleteCarManufacturerAsync(id);
         }
 
+        public async Task<GetCarManufacturerDto> PatchCarManufacturerAsync(PatchCarManufacturerRequest payload)
+        {
+            CarManufacturer? carManufacturer = await _repository.GetCarManufacturerAsync(payload.Id);
+            PatchRequestToEntity.PatchFrom<PatchCarManufacturerRequest, CarManufacturer>(carManufacturer, payload);
+
+            carManufacturer.ModifiedAt = DateTime.UtcNow;
+
+            await _repository.SaveChangesAsync();
+
+            return carManufacturer.ToDto();
+        }
     }
 }

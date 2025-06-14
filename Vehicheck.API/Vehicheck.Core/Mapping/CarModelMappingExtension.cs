@@ -14,6 +14,7 @@ namespace Vehicheck.Core.Mapping
         {
             return new GetCarModelDto
             {
+                Id = self.Id,
                 Name = self.Name,
                 ReleaseYear = self.ReleaseYear,
                 Manufacturer = self.Manufacturer!.ToDto(),
