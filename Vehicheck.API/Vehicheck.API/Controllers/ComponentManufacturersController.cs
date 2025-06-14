@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Core.Services.Interfaces;
@@ -89,6 +90,23 @@ namespace Vehicheck.API.Controllers
             {
                 _logger.LogError(ex, "Error deleting component manufacturer with id {ComponentManufacturerId}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting data from the database");
+            }
+        }
+
+        [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetComponentManufacturerDto>> PatchComponentManufacturerAsync([FromBody] PatchComponentManufacturerRequest payload)
+        {
+            try
+            {
+                var result = await _service.PatchComponentManufacturerAsync(payload);
+                return StatusCode(StatusCodes.Status200OK, "Component manufacturer patched!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error from the database");
             }
         }
     }

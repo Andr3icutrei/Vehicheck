@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Database.Entities;
@@ -15,5 +16,6 @@ namespace Vehicheck.Core.Services.Interfaces
         Task<List<GetComponentDto>> GetComponentsAsync();
         Task<Component> AddComponentAsync(AddComponentRequest payload);
         Task<bool> DeleteComponentAsync(int id);
+        Task<GetComponentDto> PatchComponentAsync(PatchComponentRequest payload); 
     }
 }

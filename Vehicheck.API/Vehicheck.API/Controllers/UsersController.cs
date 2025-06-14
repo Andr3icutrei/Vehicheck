@@ -5,6 +5,7 @@ using Vehicheck.Database.Entities;
 using Microsoft.AspNetCore.Http;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Core.Dtos.Requests.Post;
+using Vehicheck.Core.Dtos.Requests.Patch;
 
 namespace Vehicheck.API.Controllers
 {
@@ -88,6 +89,23 @@ namespace Vehicheck.API.Controllers
             {
                 _logger.LogError(ex, "Error deleting user with id {UserId}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting data from the database");
+            }
+        }
+
+        [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetUserDto>> PatchCarModelAsync([FromBody] PatchUserRequest payload)
+        {
+            try
+            {
+                var result = await _service.PatchUserAsync(payload);
+                return StatusCode(StatusCodes.Status200OK, "User patched!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error from the database");
             }
         }
     }
