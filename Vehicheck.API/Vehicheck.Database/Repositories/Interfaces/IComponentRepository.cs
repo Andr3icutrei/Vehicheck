@@ -13,5 +13,6 @@ namespace Vehicheck.Database.Repositories.Interfaces
         Task<List<Component>> GetAllComponentsAsync();
         Task<Component> AddComponentAsync(Component component);
         Task<Component> UpdateComponentAsync(Component component);
+        Task<bool> DeleteComponentAsync(int id);
     }
 }

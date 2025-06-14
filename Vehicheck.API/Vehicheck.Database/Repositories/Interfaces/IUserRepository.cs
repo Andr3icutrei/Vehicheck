@@ -12,5 +12,6 @@ namespace Vehicheck.Database.Repositories.Interfaces
         Task<User> AddUserAsync(User user);
         Task<User?> GetUserAsync(int id);   
         Task<List<User>> GetAllUsersAsync();
+        Task<bool> DeleteUserAsync(int id);
     }
 }

@@ -13,5 +13,6 @@ namespace Vehicheck.Database.Repositories.Interfaces
         Task<List<CarModel>> GetAllCarModelsAsync();
         Task<CarModel> AddCarModelAsync(CarModel carModel);
         Task<CarModel> UpdateCarModelAsync(CarModel carModel);
+        Task<bool> DeleteCarModelAsync(int id);
     }
 }

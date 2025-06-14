@@ -14,5 +14,6 @@ namespace Vehicheck.Core.Services.Interfaces
         Task<GetUserDto?> GetUserAsync(int id);
         Task<List<GetUserDto>> GetUsersAsync();
         Task<User> AddUserAsync(AddUserRequest payload);
+        Task<bool> DeleteUserAsync(int id);
     }
 }

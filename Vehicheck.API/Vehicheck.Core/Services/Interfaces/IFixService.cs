@@ -14,5 +14,6 @@ namespace Vehicheck.Core.Services.Interfaces
         Task<GetFixDto?> GetFixAsync(int id);
         Task<List<GetFixDto>> GetFixesAsync();
         Task<Fix> AddFixAsync(AddFixRequest payload);
+        Task<bool> DeleteFixAsync(int id);
     }
 }

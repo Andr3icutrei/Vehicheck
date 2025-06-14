@@ -12,5 +12,6 @@ namespace Vehicheck.Database.Repositories.Interfaces
         Task<Fix> AddFixAsync(Fix fix);
         Task<Fix?> GetFixAsync(int id);
         Task<List<Fix>> GetAllFixesAsync();
+        Task<bool> DeleteFixAsync(int id);
     }
 }

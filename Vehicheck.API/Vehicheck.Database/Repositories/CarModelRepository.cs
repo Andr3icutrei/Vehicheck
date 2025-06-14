@@ -51,5 +51,16 @@ namespace Vehicheck.Database.Repositories
             await SaveChangesAsync();
             return carModel;
         }
+
+        public async Task<bool> DeleteCarModelAsync(int id)
+        {
+            var carModel = await GetFirstOrDefaultAsync(id);
+            if (carModel == null)
+                return false;
+
+            SoftDelete(carModel);
+            await SaveChangesAsync();
+            return true;
+        }
     }
 }

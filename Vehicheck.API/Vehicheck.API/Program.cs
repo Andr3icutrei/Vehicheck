@@ -1,8 +1,10 @@
 using Vehicheck.Core;
 using Vehicheck.Database;
+using Vehicheck.Infrastructure.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
+AppConfig.Init(builder.Configuration);
 // Add services to the container.
 
 builder.Services.AddControllers();
