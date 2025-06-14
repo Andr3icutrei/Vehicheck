@@ -30,6 +30,11 @@ namespace Vehicheck.Database.Repositories
             return _context.Users
                 .Where(u => u.DeletedAt == null)
                 .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                .ThenInclude(c => c.CarManufacturer)
+                .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                .ThenInclude(c => c.CarModel)
+                .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                .ThenInclude(c => c.Components)
                 .OrderBy(u => u.Id)
                 .ToListAsync();
         }
@@ -39,6 +44,12 @@ namespace Vehicheck.Database.Repositories
             return _context.Users
                 .Where(u => u.DeletedAt == null)
                 .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                .ThenInclude(c => c.CarManufacturer)
+                .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                .ThenInclude(c => c.CarModel)
+                .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                .ThenInclude(c => c.Components)
+                .OrderBy(u => u.Id)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 

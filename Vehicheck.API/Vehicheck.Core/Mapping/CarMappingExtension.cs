@@ -17,9 +17,10 @@ namespace Vehicheck.Core.Mapping
                 Id = self.Id,
                 YearOfManufacture = self.YearOfManufacture,
                 CarMileage = self.CarMileage,
-                User = self.User!.ToDto(),
-                CarManufacturer = self.CarManufacturer!.ToDto(),
-                CarModel = self.CarModel!.ToDto(),
+                UserFirstName = self.User.FirstName,
+                UserLastName = self.User.LastName,
+                CarManufacturer = self.CarManufacturer.Name,
+                CarModel = self.CarModel.Name,
                 Components = self.Components
                     .Where(cc => cc.DeletedAt == null && cc.Component != null)
                     .Select(cc => new GetComponentDto

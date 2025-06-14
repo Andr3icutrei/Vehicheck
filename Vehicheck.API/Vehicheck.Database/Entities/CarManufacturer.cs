@@ -13,8 +13,8 @@ namespace Vehicheck.Database.Entities
         public string Name { get; set; }
 
         // navigation properties 
-        public ICollection<Car> Cars { get; set; }
+        public ICollection<Car> Cars { get; set; } = new List<Car>();
 
-        public ICollection<CarModel> Models { get; set; }
+        public ICollection<CarModel> Models { get; set; } = new List<CarModel>();
     }
 }

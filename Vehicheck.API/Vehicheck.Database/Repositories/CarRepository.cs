@@ -32,7 +32,7 @@ namespace Vehicheck.Database.Repositories
                 .Include(c => c.CarModel)
                 .Include(c => c.CarManufacturer)
                 .Include(c => c.Components)
-                    .ThenInclude(cc => cc.Component)
+                .ThenInclude(cc => cc.Component)
                 .Where(c => c.DeletedAt == null)
                 .ToListAsync();
         }
