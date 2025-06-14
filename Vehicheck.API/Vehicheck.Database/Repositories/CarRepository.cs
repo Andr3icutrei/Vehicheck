@@ -42,6 +42,15 @@ namespace Vehicheck.Database.Repositories
             if (car == null)
                 throw new ArgumentNullException(nameof(car));
 
+            var relatedComponents = await _context.CarsComponents
+                .Where(c => c.CarId == car.Id)
+                .ToListAsync();
+
+            foreach (var component in relatedComponents)
+            {
+                car.Components.Add(component);
+            }
+
             Insert(car);
             await SaveChangesAsync();
             return car;

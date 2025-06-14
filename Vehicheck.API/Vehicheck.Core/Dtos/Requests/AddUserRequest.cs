@@ -19,7 +19,7 @@ namespace Vehicheck.Core.Dtos.Requests
 
         public User ToEntity()
         {
-            return new User
+            User u = new User
             {
                 FirstName = FirstName,
                 LastName = LastName,
@@ -27,6 +27,8 @@ namespace Vehicheck.Core.Dtos.Requests
                 Phone = Phone,
                 IsAdmin = IsAdmin,
             };
+            u.SetPassword(Password);
+            return u;
         }
     }
 }
