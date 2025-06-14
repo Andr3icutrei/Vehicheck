@@ -1,6 +1,7 @@
 using Vehicheck.Core;
 using Vehicheck.Database;
 using Vehicheck.Infrastructure.Config;
+using Vehicheck.Infrastructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,8 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 }
+
+app.UseRequestLogging();
 
 app.UseHttpsRedirection();
 
