@@ -23,17 +23,14 @@ namespace Vehicheck.Database.Entities
         [MinLength(5), MaxLength(20)]
         public string Phone { get; set; }
 
-        // Remove the plain Password property and replace with:
         [MaxLength(255)]
         public string PasswordHash { get; set; }
 
         [MaxLength(255)]
         public string Salt { get; set; }
 
-        // Navigation properties
         public ICollection<Car> Cars { get; set; } = new List<Car>();
 
-        // Helper methods for password handling
         public void SetPassword(string password)
         {
             Salt = GenerateSalt();
