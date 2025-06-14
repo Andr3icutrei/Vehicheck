@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Requests.Patch;
+using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.API.Controllers
 {
@@ -72,11 +73,11 @@ namespace Vehicheck.API.Controllers
             try
             {
                 var success = await _service.DeleteUserAsync(id);
-                if (!success)
-                {
-                    return NotFound($"User with id {id} not found");
-                }
                 return Ok($"User with id {id} deleted successfully");
+            }
+            catch (EntityNotFoundException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -95,6 +96,10 @@ namespace Vehicheck.API.Controllers
             {
                 var result = await _service.PatchUserAsync(payload);
                 return StatusCode(StatusCodes.Status200OK, "User patched!");
+            }
+            catch (EntityNotFoundException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

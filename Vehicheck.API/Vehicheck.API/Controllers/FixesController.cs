@@ -4,6 +4,7 @@ using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
+using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.API.Controllers
 {
@@ -74,11 +75,11 @@ namespace Vehicheck.API.Controllers
                 try
                 {
                     var success = await _service.DeleteFixAsync(id);
-                    if (!success)
-                    {
-                        return NotFound($"Fix with id {id} not found");
-                    }
                     return Ok($"Fix with id {id} deleted successfully");
+                }
+                catch (EntityNotFoundException)
+                {
+                    throw;
                 }
                 catch (Exception ex)
                 {
@@ -97,6 +98,10 @@ namespace Vehicheck.API.Controllers
                 {
                     var result = await _service.PatchFixAsync(payload);
                     return StatusCode(StatusCodes.Status200OK, "Fix patched!");
+                }
+                catch (EntityNotFoundException)
+                {
+                    throw;
                 }
                 catch (Exception ex)
                 {

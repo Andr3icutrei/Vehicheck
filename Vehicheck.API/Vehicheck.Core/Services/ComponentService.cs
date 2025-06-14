@@ -49,12 +49,23 @@ namespace Vehicheck.Core.Services
 
         public async Task<bool> DeleteComponentAsync(int id)
         {
+            var component = await _repository.GetFirstOrDefaultAsync(id);
+            if (component == null)
+            {
+                throw new EntityNotFoundException("Component", id);
+            }
             return await _repository.DeleteComponentAsync(id);
         }
 
         public async Task<GetComponentDto> PatchComponentAsync(PatchComponentRequest payload)
         {
             Component? component = await _repository.GetComponentAsync(payload.Id);
+
+            if (component == null)
+            {
+                throw new EntityNotFoundException("Component", payload.Id);
+            }
+
             PatchRequestToEntity.PatchFrom<PatchComponentRequest, Component>(component, payload);
             
             component.ModifiedAt = DateTime.UtcNow;

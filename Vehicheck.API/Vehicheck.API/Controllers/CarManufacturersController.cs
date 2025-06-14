@@ -4,6 +4,7 @@ using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
+using Vehicheck.Infrastructure.Exceptions;
 
 
 namespace Vehicheck.API.Controllers
@@ -71,11 +72,11 @@ namespace Vehicheck.API.Controllers
             try
             {
                 var success = await _service.DeleteCarManufacturerAsync(id);
-                if (!success)
-                {
-                    return NotFound($"Car manufacturer with id {id} not found");
-                }
                 return StatusCode(StatusCodes.Status200OK,"Car manufacturer with id {id} deleted successfully");
+            }
+            catch (EntityNotFoundException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -95,6 +96,10 @@ namespace Vehicheck.API.Controllers
                 var result = await _service.PatchCarManufacturerAsync(payload);
                 return StatusCode(StatusCodes.Status200OK, "Car manufacturer patched!");
             }
+            //catch(EntityNotFoundException)
+            //{
+            //    throw;
+            //}
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error patching data from the database");
