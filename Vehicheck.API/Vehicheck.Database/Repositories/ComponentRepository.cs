@@ -30,10 +30,6 @@ namespace Vehicheck.Database.Repositories
         {
             return await _context.Components
                 .Include(c => c.Manufacturer)
-                .Include(c => c.Cars)
-                    .ThenInclude(cc => cc.Car)
-                .Include(c => c.Fixes)
-                    .ThenInclude(cf => cf.Fix)
                 .Where(c => c.DeletedAt == null)
                 .ToListAsync();
         }

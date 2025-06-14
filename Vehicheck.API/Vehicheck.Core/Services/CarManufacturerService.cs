@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Vehicheck.Core.Dtos.Requests;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Repositories.Interfaces;
 using Vehicheck.Core.Mapping;
 using Vehicheck.Database.Entities;
+using Vehicheck.Core.Dtos.Requests.Post;
 
 namespace Vehicheck.Core.Services
 {
@@ -40,6 +40,7 @@ namespace Vehicheck.Core.Services
             {
                 toReturn.Add(carManufacturer.ToDto());  
             }
+
             return toReturn;
         }
 

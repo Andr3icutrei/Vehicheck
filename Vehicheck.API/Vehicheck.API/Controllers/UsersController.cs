@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Vehicheck.Core.Dtos.Requests;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
 using Microsoft.AspNetCore.Http;
 using Vehicheck.Core.Dtos.Responses.Get;
+using Vehicheck.Core.Dtos.Requests.Post;
 
 namespace Vehicheck.API.Controllers
 {

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Vehicheck.Core.Dtos.Requests;
+using Vehicheck.Core.Dtos.Requests.Patch;
+using Vehicheck.Core.Dtos.Requests.Post;
+using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
 
@@ -38,11 +40,11 @@ namespace Vehicheck.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Car>> GetCarByIdAsync(int id)
+        public async Task<ActionResult<GetCarManufacturerDto>> GetCarManufacturerByIdAsync(int id)
         {
             try
             {
-                var result = _service.GetCarManufacturerAsync(id);
+                var result = await _service.GetCarManufacturerAsync(id);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -54,11 +56,11 @@ namespace Vehicheck.API.Controllers
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Car>> GetCarsAsync()
+        public async Task<ActionResult<List<GetCarManufacturerDto>>> GetCarManufacturersAsync()
         {
             try
             {
-                var result = _service.GetAllCarManufacturersAsync();
+                var result = await _service.GetAllCarManufacturersAsync();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -88,5 +90,14 @@ namespace Vehicheck.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting data from the database");
             }
         }
+
+        //[HttpPatch]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<ActionResult<CarManufacturer>> PatchCarManufacturerAsync([FromBody] PatchCarManufacturerRequest payload)
+        //{
+
+        //}
     }
 }

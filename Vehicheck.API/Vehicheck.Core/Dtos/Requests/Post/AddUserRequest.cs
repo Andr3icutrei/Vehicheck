@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Database.Entities;
 
-namespace Vehicheck.Core.Dtos.Requests
+namespace Vehicheck.Core.Dtos.Requests.Post
 {
     public class AddUserRequest
     {

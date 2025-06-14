@@ -18,15 +18,6 @@ namespace Vehicheck.Core.Mapping
                 Id = self.Id,
                 Name = self.Name,
                 Price = self.Price,
-                Cars = self.Cars
-                .Where(cc => cc.DeletedAt == null && cc.Car != null)
-                .Select(cc => new GetCarDto
-                {
-                    Id = cc.Car!.Id,
-                    YearOfManufacture = cc.Car.YearOfManufacture,
-                    CarModel = cc.Car.CarModel!.ToDto(),
-                    CarManufacturer = cc.Car.CarManufacturer!.ToDto()
-                }).ToList()
             };
         }
     }

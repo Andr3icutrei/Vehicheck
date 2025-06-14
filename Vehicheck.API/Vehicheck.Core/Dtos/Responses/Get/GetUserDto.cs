@@ -17,6 +17,6 @@ namespace Vehicheck.Core.Dtos.Responses.Get
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Password { get; set; }
-        public List<GetCarDto> Cars { get; set; } = new List<GetCarDto>();
+        public List<GetCarDto>? Cars { get; set; }
     }
 }

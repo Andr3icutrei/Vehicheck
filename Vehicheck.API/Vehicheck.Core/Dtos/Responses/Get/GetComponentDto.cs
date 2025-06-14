@@ -15,6 +15,5 @@ namespace Vehicheck.Core.Dtos.Responses.Get
         public string Name { get; set; }
         public decimal Price { get; set; }
         public GetComponentManufacturerDto Manufacturer { get; set; }
-        public List<GetCarDto> Cars { get; set; } = new List<GetCarDto>();
     }
 }
