@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
+using Vehicheck.Core.Dtos.Responses.Get.Querying;
 using Vehicheck.Core.Mapping;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.Models.Querying.Filters;
+using Vehicheck.Database.Models.Querying.Results;
 using Vehicheck.Database.PatchHelpers;
 using Vehicheck.Database.Repositories.Interfaces;
 using Vehicheck.Infrastructure.Exceptions;
@@ -31,7 +34,7 @@ namespace Vehicheck.Core.Services
             return await _repository.AddUserAsync(user);
         }
 
-        public async Task<GetUserDto?> GetUserAsync(int id)
+        public async Task<UserDto?> GetUserAsync(int id)
         {
             var result = await _repository.GetUserAsync(id);
 
@@ -43,7 +46,7 @@ namespace Vehicheck.Core.Services
             return result.ToDto();
         }
 
-        public async Task<List<GetUserDto>> GetUsersAsync()
+        public async Task<List<UserDto>> GetUsersAsync()
         {
             var result = await _repository.GetAllUsersAsync();
             return result.Select(u => u.ToDto()).ToList();   
@@ -59,7 +62,7 @@ namespace Vehicheck.Core.Services
             return await _repository.DeleteUserAsync(id);
         }
 
-        public async Task<GetUserDto> PatchUserAsync(PatchUserRequest payload)
+        public async Task<UserDto> PatchUserAsync(PatchUserRequest payload)
         {
             User? user = await _repository.GetUserAsync(payload.Id);
             if (user == null)
@@ -73,6 +76,18 @@ namespace Vehicheck.Core.Services
             await _repository.SaveChangesAsync();
 
             return user.ToDto();
+        }
+
+        public async Task<PagedResponse<UserDto>> GetUsersQueryiedAsync(UserQueryRequestDto payload)
+        {
+            PagedResult<UserResult> result = await _repository.GetUsersQueriedAsync(payload.ToQueryingFilter());
+            return new PagedResponse<UserDto>
+            {
+                Data = result.Data.Select(u => UserDto.ToDto(u)),
+                Page = result.Page,
+                PageSize = result.PageSize,
+                TotalPages = result.TotalPages,
+            };
         }
     }
 }

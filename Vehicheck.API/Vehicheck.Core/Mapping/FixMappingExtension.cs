@@ -5,21 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.Models.Querying.Results;
 
 namespace Vehicheck.Core.Mapping
 {
     public static class FixMappingExtension
     {
-        public static GetFixDto ToDto(this Fix self)
+        public static FixDto ToDto(this Fix self)
         {
-            return new GetFixDto
+            return new FixDto
             { 
                 Id = self.Id,
                 Description = self.Description,
                 Price = self.Price,
                 Components = self.Components
                     .Where(cf => cf.DeletedAt == null && cf.Component != null)
-                    .Select(cf => new GetComponentDto
+                    .Select(cf => new ComponentDto
                     {
                         Id = cf.Component!.Id,
                         Name = cf.Component!.Name,

@@ -12,6 +12,9 @@ using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Database.PatchHelpers;
 using Vehicheck.Infrastructure.Exceptions;
+using Vehicheck.Core.Dtos.Responses.Get.Querying;
+using Vehicheck.Database.Models.Querying.Results;
+using Vehicheck.Database.Models.Querying.Filters;
 
 namespace Vehicheck.Core.Services
 {
@@ -30,7 +33,7 @@ namespace Vehicheck.Core.Services
             return result;
         }
 
-        public async Task<GetCarManufacturerDto?> GetCarManufacturerAsync(int id)
+        public async Task<CarManufacturerDto?> GetCarManufacturerAsync(int id)
         {
             var carManufacturer = await _repository.GetCarManufacturerAsync(id);
 
@@ -42,9 +45,9 @@ namespace Vehicheck.Core.Services
             return carManufacturer?.ToDto();
         }
 
-        public async Task<List<GetCarManufacturerDto>> GetAllCarManufacturersAsync()
+        public async Task<List<CarManufacturerDto>> GetAllCarManufacturersAsync()
         {
-            List<GetCarManufacturerDto> toReturn = new List<GetCarManufacturerDto>();
+            List<CarManufacturerDto> toReturn = new List<CarManufacturerDto>();
             foreach(var carManufacturer in await _repository.GetCarManufacturersAsync())
             {
                 toReturn.Add(carManufacturer.ToDto());  
@@ -64,7 +67,7 @@ namespace Vehicheck.Core.Services
             return await _repository.DeleteCarManufacturerAsync(id);
         }
 
-        public async Task<GetCarManufacturerDto> PatchCarManufacturerAsync(PatchCarManufacturerRequest payload)
+        public async Task<CarManufacturerDto> PatchCarManufacturerAsync(PatchCarManufacturerRequest payload)
         {
             CarManufacturer? carManufacturer = await _repository.GetCarManufacturerAsync(payload.Id);
 
@@ -80,6 +83,18 @@ namespace Vehicheck.Core.Services
             await _repository.SaveChangesAsync();
 
             return carManufacturer.ToDto();
+        }
+
+        public async Task<PagedResponse<CarManufacturerDto>> GetCarManufacturersQueriedAsync(CarManufacturerQueryRequestDto payload)
+        {
+            PagedResult<CarManufacturerResult> result = await _repository.GetCarManufacturersQueriedAsync(payload.ToQueryingFilter());
+            return new PagedResponse<CarManufacturerDto>
+            {
+                Data = result.Data.Select(cm => CarManufacturerDto.ToDto(cm)),
+                Page = result.Page,
+                PageSize = result.PageSize,
+                TotalPages = result.TotalPages,
+            };
         }
     }
 }

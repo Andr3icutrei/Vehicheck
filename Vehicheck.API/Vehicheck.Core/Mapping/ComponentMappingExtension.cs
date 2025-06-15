@@ -6,14 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.Models.Querying.Results;
 
 namespace Vehicheck.Core.Mapping
 {
     public static class ComponentMappingExtension
     {
-        public static GetComponentDto ToDto(this Component self)
+        public static ComponentDto ToDto(this Component self)
         {
-            return new GetComponentDto
+            return new ComponentDto
             {
                 Id = self.Id,
                 Name = self.Name,

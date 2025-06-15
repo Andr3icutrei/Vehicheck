@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Database.Entities;
 
-namespace Vehicheck.Core.Dtos.Responses.Get
+namespace Vehicheck.Database.Models.Querying.Results
 {
-    public class GetUserDto
+    public class UserResult
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -17,6 +16,17 @@ namespace Vehicheck.Core.Dtos.Responses.Get
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Password { get; set; }
-        public List<GetCarDto>? Cars { get; set; }
+
+        public static UserResult ToResult(User self)
+        {
+            return new UserResult
+            {
+                Id = self.Id,
+                FirstName = self.FirstName,
+                LastName = self.LastName,
+                Email = self.Email,
+                Phone = self.Phone,
+            };
+        }
     }
 }

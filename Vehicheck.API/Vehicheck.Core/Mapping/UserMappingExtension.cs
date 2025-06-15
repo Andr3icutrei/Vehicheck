@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.Models.Querying.Results;
 
 namespace Vehicheck.Core.Mapping
 {
     public static class UserMappingExtension
     {
-        public static GetUserDto ToDto(this User self)
+        public static UserDto ToDto(this User self)
         {
-            return new GetUserDto
+            return new UserDto
             {
                 Id = self.Id,
                 FirstName = self.FirstName,

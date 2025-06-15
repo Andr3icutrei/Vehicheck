@@ -5,15 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.Models.Querying.Results;
 
 namespace Vehicheck.Core.Dtos.Responses.Get
 {
-    public class GetCarModelDto
+    public class CarModelDto
     {
         public int Id { get; set; }
         [MaxLength(30)]
         public string Name { get; set; }
         public int ReleaseYear { get; set; }
-        public GetCarManufacturerDto Manufacturer { get; set; }
+        public CarManufacturerDto Manufacturer { get; set; }
+
+        public static CarModelDto ToDto(CarModelResult result)
+        {
+            return new CarModelDto
+            {
+                Id = result.Id,
+                Name = result.Name,
+                ReleaseYear = result.ReleaseYear
+            };
+        }
     }
 }

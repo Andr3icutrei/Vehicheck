@@ -5,19 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Responses.Get;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.Models.Querying.Results;
 
 namespace Vehicheck.Core.Mapping
 {
     public static class CarModelMappingExtension
     {
-        public static GetCarModelDto ToDto(this CarModel self)
+        public static CarModelDto ToDto(this CarModel self)
         {
-            return new GetCarModelDto
+            return new CarModelDto
             {
                 Id = self.Id,
                 Name = self.Name,
                 ReleaseYear = self.ReleaseYear,
-                Manufacturer = self.Manufacturer!.ToDto(),
+                Manufacturer = self.Manufacturer.ToDto(),
             };
         }
     }

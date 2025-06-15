@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
+using Vehicheck.Core.Dtos.Responses.Get.Querying;
 using Vehicheck.Core.Mapping;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.Models.Querying.Filters;
+using Vehicheck.Database.Models.Querying.Results;
 using Vehicheck.Database.PatchHelpers;
 using Vehicheck.Database.Repositories.Interfaces;
 using Vehicheck.Infrastructure.Exceptions;
@@ -29,7 +32,7 @@ namespace Vehicheck.Core.Services
             return await _repository.AddComponentAsync(payload.ToEntity());
         }
 
-        public async Task<GetComponentManufacturerDto?> GetComponentManufacturerAsync(int id)
+        public async Task<ComponentManufacturerDto?> GetComponentManufacturerAsync(int id)
         {
             var result = await _repository.GetComponentManufacturerAsync(id);
 
@@ -41,7 +44,7 @@ namespace Vehicheck.Core.Services
             return result.ToDto();
         }
 
-        public async Task<List<GetComponentManufacturerDto>> GetComponentManufacturesAsync()
+        public async Task<List<ComponentManufacturerDto>> GetComponentManufacturesAsync()
         {
             var result = await _repository.GetAllComponentsAsync();
             return result.Select(cm => cm.ToDto()).ToList();
@@ -57,7 +60,7 @@ namespace Vehicheck.Core.Services
             return await _repository.DeleteComponentManufacturerAsync(id);
         }
 
-        public async Task<GetComponentManufacturerDto> PatchComponentManufacturerAsync(PatchComponentManufacturerRequest payload)
+        public async Task<ComponentManufacturerDto> PatchComponentManufacturerAsync(PatchComponentManufacturerRequest payload)
         {
             ComponentManufacturer? componentManufacturer = await _repository.GetComponentManufacturerAsync(payload.Id);
 
@@ -73,6 +76,18 @@ namespace Vehicheck.Core.Services
             await _repository.SaveChangesAsync();
 
             return componentManufacturer.ToDto();
+        }
+
+        public async Task<PagedResponse<ComponentManufacturerDto>> GetComponentManufacturerQueryiedAsync(ComponentManufacturerQueryRequestDto payload)
+        {
+            PagedResult<ComponentManufacturerResult> result = await _repository.GetComponentmanufacturersQueriedAsync(payload.ToQueryingFilter());
+            return new PagedResponse<ComponentManufacturerDto>
+            {
+                Data = result.Data.Select(cm => ComponentManufacturerDto.ToDto(cm)),
+                Page = result.Page,
+                PageSize = result.PageSize,
+                TotalPages = result.TotalPages,
+            };
         }
     }
 }
