@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
+using Vehicheck.Core.Dtos.Responses.Get.Querying;
 using Vehicheck.Database.Entities;
 
 namespace Vehicheck.Core.Services.Interfaces
 {
     public interface ICarModelService
     {
-        Task<GetCarModelDto?> GetCarModelAsync(int id);
-        Task<List<GetCarModelDto>> GetCarModelsAsync();
+        Task<CarModelDto?> GetCarModelAsync(int id);
+        Task<PagedResponse<CarModelDto>> GetCarModelsQueryiedAsync(CarModelQueryRequestDto payload);
+        Task<List<CarModelDto>> GetCarModelsAsync();
         Task<CarModel> AddCarModelAsync(AddCarModelRequest payload);
         Task<bool> DeleteCarModelAsync(int id);
-        Task<GetCarModelDto> PatchCarModelAsync(PatchCarModelRequest payload);
+        Task<CarModelDto> PatchCarModelAsync(PatchCarModelRequest payload);
     }
 }

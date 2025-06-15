@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
+using Vehicheck.Core.Dtos.Responses.Get.Querying;
 using Vehicheck.Database.Entities;
 
 namespace Vehicheck.Core.Services.Interfaces
 {
     public interface IFixService
     {
-        Task<GetFixDto?> GetFixAsync(int id);
-        Task<List<GetFixDto>> GetFixesAsync();
+        Task<FixDto?> GetFixAsync(int id);
+        Task<PagedResponse<FixDto>> GetFixesQueryiedAsync(FixQueryRequestDto payload);
+        Task<List<FixDto>> GetFixesAsync();
         Task<Fix> AddFixAsync(AddFixRequest payload);
         Task<bool> DeleteFixAsync(int id);
-        Task<GetFixDto> PatchFixAsync(PatchFixRequest payload);
+        Task<FixDto> PatchFixAsync(PatchFixRequest payload);
     }
 }

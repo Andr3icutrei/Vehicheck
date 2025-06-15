@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Vehicheck.Database.Context;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.Extensions;
+using Vehicheck.Database.Models.Querying.Filters;
+using Vehicheck.Database.Models.Querying.Results;
 using Vehicheck.Database.Repositories.Interfaces;
 
 namespace Vehicheck.Database.Repositories
@@ -19,7 +23,7 @@ namespace Vehicheck.Database.Repositories
                 .Include(c => c.User)
                 .Include(c => c.CarModel)
                 .Include(c => c.CarManufacturer)
-                .Include(c => c.Components)
+                .Include(c => c.Components.Where(c => c.DeletedAt == null))
                     .ThenInclude(cc => cc.Component)
                 .Where(c => c.DeletedAt == null)
                 .FirstOrDefaultAsync(c => c.Id == carId);
@@ -31,7 +35,7 @@ namespace Vehicheck.Database.Repositories
                 .Include(c => c.User)
                 .Include(c => c.CarModel)
                 .Include(c => c.CarManufacturer)
-                .Include(c => c.Components)
+                .Include(c => c.Components.Where(c => c.DeletedAt == null))
                 .ThenInclude(cc => cc.Component)
                 .Where(c => c.DeletedAt == null)
                 .ToListAsync();
@@ -75,6 +79,60 @@ namespace Vehicheck.Database.Repositories
             SoftDelete(car);
             await SaveChangesAsync();
             return true;
+        }
+
+        public async Task<PagedResult<CarResult>> GetCarsQueriedAsync(CarQueryingFilter payload)
+        {
+            // Sorting + filtering
+            IQueryable<Car> query = GetRecords();
+
+            if(payload.YearOfManufacture.HasValue)
+                query = query.Where(c => c.YearOfManufacture == payload.YearOfManufacture);
+
+            if (payload.CarMileage.HasValue)
+                query = query.Where(c => c.CarMileage == payload.CarMileage);
+
+            if (!string.IsNullOrEmpty(payload.CarModel))
+            {
+                query = query.Where(c => c.CarModel.Name.Contains(payload.CarModel)); 
+            }
+            query = query.Include(c => c.CarModel);
+
+            if (!string.IsNullOrEmpty(payload.CarManufacturer))
+            {
+                query = query.Where(c => c.CarManufacturer.Name.Contains(payload.CarManufacturer));
+            }
+            query = query.Include(c => c.CarManufacturer);
+
+            if (payload.Params.SortBy.IsNullOrEmpty())
+                query = query.OrderBy(cm => cm.Id);
+
+            query.ApplySorting<Car>(payload.Params.SortBy, payload.Params.SortDescending ?? false);
+
+            // Paging
+            int totalCount = await query.CountAsync();
+
+            List<Car>? cars;
+            if (!(payload.Params.PageSize != null && payload.Params.PageSize != null))
+            {
+                cars = await query.ToListAsync();
+            }
+            else
+            {
+                cars = await query.
+                    Skip((int)payload.Params.PageSize * ((int)payload.Params.Page - 1)).
+                    Take((int)payload.Params.PageSize).
+                    ToListAsync();
+            }
+
+            return new PagedResult<CarResult>
+            {
+                Data = cars.Select(c => CarResult.ToResult(c)),
+                PageSize = (int)payload.Params.PageSize,
+                Page = (int)payload.Params.Page,
+                TotalPages = payload.Params.PageSize != null ?
+                    (int)Math.Ceiling((double)totalCount / (int)payload.Params.PageSize) : 1
+            };
         }
     }
 }

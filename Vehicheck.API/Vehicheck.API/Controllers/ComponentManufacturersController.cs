@@ -2,6 +2,7 @@
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
+using Vehicheck.Core.Dtos.Responses.Get.Querying;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
 using Vehicheck.Infrastructure.Exceptions;
@@ -41,7 +42,7 @@ namespace Vehicheck.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<GetComponentManufacturerDto>> GetComponentManufacturerByIdAsync(int id)
+        public async Task<ActionResult<ComponentManufacturerDto>> GetComponentManufacturerByIdAsync(int id)
         {
             var result = await _service.GetComponentManufacturerAsync(id);
             return Ok(result);
@@ -50,7 +51,7 @@ namespace Vehicheck.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<GetComponentManufacturerDto>>> GetComponentManufacturersAsync()
+        public async Task<ActionResult<List<ComponentManufacturerDto>>> GetComponentManufacturersAsync()
         {
             try
             {
@@ -90,7 +91,7 @@ namespace Vehicheck.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<GetComponentManufacturerDto>> PatchComponentManufacturerAsync([FromBody] PatchComponentManufacturerRequest payload)
+        public async Task<ActionResult<ComponentManufacturerDto>> PatchComponentManufacturerAsync([FromBody] PatchComponentManufacturerRequest payload)
         {
             try
             {
@@ -104,6 +105,24 @@ namespace Vehicheck.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error from the database");
+            }
+        }
+
+        [HttpGet("queryied")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<PagedResponse<ComponentManufacturerDto>>> GetComponentManufacturersQueriedAsync(
+            [FromQuery] ComponentManufacturerQueryRequestDto payload)
+        {
+            try
+            {
+                var result = await _service.GetComponentManufacturerQueryiedAsync(payload);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting data from the database");
             }
         }
     }

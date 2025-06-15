@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
+using Vehicheck.Core.Dtos.Responses.Get.Querying;
 using Vehicheck.Core.Mapping;
 using Vehicheck.Core.Services.Interfaces;
 using Vehicheck.Database.Entities;
+using Vehicheck.Database.Models.Querying.Filters;
+using Vehicheck.Database.Models.Querying.Results;
 using Vehicheck.Database.PatchHelpers;
 using Vehicheck.Database.Repositories.Interfaces;
 using Vehicheck.Infrastructure.Exceptions;
@@ -29,7 +32,7 @@ namespace Vehicheck.Core.Services
             return await _repository.AddComponentAsync(payload.ToEntity());
         }
 
-        public async Task<GetComponentDto?> GetComponentAsync(int id)
+        public async Task<ComponentDto?> GetComponentAsync(int id)
         {
             var result = await _repository.GetComponentAsync(id);
 
@@ -41,7 +44,7 @@ namespace Vehicheck.Core.Services
             return result.ToDto();
         }
 
-        public async Task<List<GetComponentDto>> GetComponentsAsync()
+        public async Task<List<ComponentDto>> GetComponentsAsync()
         {
             var result = await _repository.GetAllComponentsAsync();
             return result.Select(c => c.ToDto()).ToList();
@@ -57,7 +60,7 @@ namespace Vehicheck.Core.Services
             return await _repository.DeleteComponentAsync(id);
         }
 
-        public async Task<GetComponentDto> PatchComponentAsync(PatchComponentRequest payload)
+        public async Task<ComponentDto> PatchComponentAsync(PatchComponentRequest payload)
         {
             Component? component = await _repository.GetComponentAsync(payload.Id);
 
@@ -72,6 +75,18 @@ namespace Vehicheck.Core.Services
 
             await _repository.SaveChangesAsync();
             return component.ToDto();
+        }
+
+        public async Task<PagedResponse<ComponentDto>> GetComponentsQueriedAsync(ComponentQueryRequestDto payload)
+        {
+            PagedResult<ComponentResult> result = await _repository.GetAllComponentsQueriedAsync(payload.ToQueryingFilter());
+            return new PagedResponse<ComponentDto>
+            {
+                Data = result.Data.Select(c => ComponentDto.ToDto(c)),
+                Page = result.Page,
+                PageSize = result.PageSize,
+                TotalPages = result.TotalPages,
+            };
         }
     }
 }
