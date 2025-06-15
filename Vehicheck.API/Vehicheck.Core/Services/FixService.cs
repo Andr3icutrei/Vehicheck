@@ -48,12 +48,23 @@ namespace Vehicheck.Core.Services
         }
         public async Task<bool> DeleteFixAsync(int id)
         {
+            var fix = await _repository.GetFirstOrDefaultAsync(id);
+            if (fix == null)
+            {
+                throw new EntityNotFoundException("Fix", id);
+            }
             return await _repository.DeleteFixAsync(id);
         }
 
         public async Task<GetFixDto> PatchFixAsync(PatchFixRequest payload)
         {
             Fix? fix = await _repository.GetFixAsync(payload.Id);
+
+            if (fix == null)
+            {
+                throw new EntityNotFoundException("Fix", payload.Id);
+            }
+
             PatchRequestToEntity.PatchFrom<PatchFixRequest, Fix>(fix, payload);
 
             fix.ModifiedAt = DateTime.UtcNow;
