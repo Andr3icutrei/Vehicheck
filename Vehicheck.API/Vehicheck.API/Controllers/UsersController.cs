@@ -8,11 +8,13 @@ using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Infrastructure.Exceptions;
 using Vehicheck.Core.Dtos.Responses.Get.Querying;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Vehicheck.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _service;

@@ -21,6 +21,8 @@ namespace Vehicheck.Core
             services.AddScoped<IComponentService, ComponentService>();
             services.AddScoped<IFixService, FixService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }
