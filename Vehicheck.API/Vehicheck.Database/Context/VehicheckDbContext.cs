@@ -54,7 +54,7 @@ namespace Vehicheck.Database.Context
         }
 
         public DbSet<Car> Cars { get; set; }
-        public DbSet<CarComponent> CarsComponents { get;set; }
+        public DbSet<CarModelComponent> CarModelsComponents { get;set; }
         public DbSet<CarManufacturer> CarManufacturers { get; set; }
         public DbSet<CarModel> CarModels { get; set; }
         public DbSet<Component> Components { get; set; }

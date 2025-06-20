@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vehicheck.Core.Mapping;
 using Vehicheck.Database.Entities;
 using Vehicheck.Database.Models.Querying.Results;
 
@@ -24,6 +25,7 @@ namespace Vehicheck.Core.Dtos.Responses.Get
                 Id = result.Id,
                 Name = result.Name,
                 Price = result.Price,
+                Manufacturer = result.ComponentManufacturer.ToDto(),
             };
         }
     }

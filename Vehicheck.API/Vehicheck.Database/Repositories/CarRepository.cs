@@ -23,8 +23,6 @@ namespace Vehicheck.Database.Repositories
                 .Include(c => c.User)
                 .Include(c => c.CarModel)
                 .Include(c => c.CarManufacturer)
-                .Include(c => c.Components.Where(c => c.DeletedAt == null))
-                    .ThenInclude(cc => cc.Component)
                 .Where(c => c.DeletedAt == null)
                 .FirstOrDefaultAsync(c => c.Id == carId);
         }
@@ -33,10 +31,10 @@ namespace Vehicheck.Database.Repositories
         {
             return await _context.Cars
                 .Include(c => c.User)
-                .Include(c => c.CarModel)
                 .Include(c => c.CarManufacturer)
-                .Include(c => c.Components.Where(c => c.DeletedAt == null))
-                .ThenInclude(cc => cc.Component)
+                .Include(c => c.CarModel)
+                    .ThenInclude(cm => cm.Components) // CarModel.Components (collection of CarModelComponent)
+                        .ThenInclude(cmc => cmc.Component) // CarModelComponent.Component (navigation)
                 .Where(c => c.DeletedAt == null)
                 .ToListAsync();
         }
@@ -45,15 +43,6 @@ namespace Vehicheck.Database.Repositories
         {
             if (car == null)
                 throw new ArgumentNullException(nameof(car));
-
-            var relatedComponents = await _context.CarsComponents
-                .Where(c => c.CarId == car.Id)
-                .ToListAsync();
-
-            foreach (var component in relatedComponents)
-            {
-                car.Components.Add(component);
-            }
 
             Insert(car);
             await SaveChangesAsync();

@@ -20,14 +20,9 @@ namespace Vehicheck.Core.Mapping
                 CarMileage = self.CarMileage,
                 CarManufacturer = self.CarManufacturer.Name,
                 CarModel = self.CarModel.Name,
-                Components = self.Components
+                Components = self.CarModel.Components
                     .Where(cc => cc.DeletedAt == null && cc.Component != null)
-                    .Select(cc => new ComponentDto
-                    {
-                        Id = cc.Component!.Id,
-                        Name = cc.Component.Name,
-                        Price = cc.Component.Price
-                    }).ToList(),
+                    .Select(cc => cc.Component.Name).ToList(),
             };
         }
     }

@@ -21,7 +21,5 @@ namespace Vehicheck.Database.Entities
 
         public int CarManufacturerId { get; set; }
         public CarManufacturer CarManufacturer { get; set; }
-        
-        public ICollection<CarComponent> Components { get; set; } = new List<CarComponent>();
     }
 }

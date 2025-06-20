@@ -25,12 +25,12 @@ namespace Vehicheck.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Component>> AddComponentAsync([FromBody] AddComponentRequest payload)
+        public async Task<ActionResult> AddComponentAsync([FromBody] AddComponentRequest payload)
         {
             try
             {
                 var result = await _service.AddComponentAsync(payload);
-                return Ok(result);
+                return Ok("Component added");
             }
             catch (Exception ex)
             {

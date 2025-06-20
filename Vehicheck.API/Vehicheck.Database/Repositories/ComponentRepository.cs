@@ -22,8 +22,8 @@ namespace Vehicheck.Database.Repositories
         {
             return await _context.Components
                 .Include(c => c.Manufacturer)
-                .Include(c => c.Cars.Where(c => c.DeletedAt == null))
-                    .ThenInclude(cc => cc.Car)
+                .Include(c => c.Models.Where(c => c.DeletedAt == null))
+                    .ThenInclude(cc => cc.CarModel)
                 .Include(c => c.Fixes.Where(c => c.DeletedAt == null))
                     .ThenInclude(cf => cf.Fix)
                 .Where(c => c.DeletedAt == null)
@@ -38,10 +38,19 @@ namespace Vehicheck.Database.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Component> AddComponentAsync(Component component)
+        public async Task<Component> AddComponentAsync(Component component, List<int> CarModelIds)
         {
             if (component == null)
                 throw new ArgumentNullException(nameof(component));
+
+            foreach (int id in CarModelIds)
+            {
+                component.Models.Add(new CarModelComponent
+                {
+                    CarModelId = id,
+                    ComponentId = component.Id
+                });
+            }
 
             Insert(component);
             await SaveChangesAsync();

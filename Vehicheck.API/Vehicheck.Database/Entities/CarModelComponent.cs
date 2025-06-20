@@ -8,16 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Vehicheck.Database.Entities
 {
-    [PrimaryKey(nameof(CarId), nameof(ComponentId))]
-    public class CarComponent
+    [PrimaryKey(nameof(CarModelId), nameof(ComponentId))]
+    public class CarModelComponent
     {
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? ModifiedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
         // navigation properties
-        public int CarId { get; set; }
-        public Car Car { get; set; }
+        public int CarModelId { get; set; }
+        public CarModel CarModel { get; set; }
 
         public int ComponentId { get; set; }
         public Component Component { get; set; }
