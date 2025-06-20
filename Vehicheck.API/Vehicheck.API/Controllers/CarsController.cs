@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Vehicheck.Core.Dtos.Requests.Patch;
 using Vehicheck.Core.Dtos.Requests.Post;
 using Vehicheck.Core.Dtos.Responses.Get;
@@ -11,6 +12,7 @@ namespace Vehicheck.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CarsController : ControllerBase
     {
         private readonly ICarService _service;
