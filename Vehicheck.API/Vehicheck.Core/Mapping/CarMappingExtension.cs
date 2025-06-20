@@ -22,7 +22,7 @@ namespace Vehicheck.Core.Mapping
                 CarModel = self.CarModel.Name,
                 Components = self.CarModel.Components
                     .Where(cc => cc.DeletedAt == null && cc.Component != null)
-                    .Select(cc => cc.Component.Name).ToList(),
+                    .Select(cc => cc.Component.Name + ", " + cc.Component.Manufacturer.Name).ToList(),
             };
         }
     }

@@ -52,6 +52,7 @@ namespace Vehicheck.Database.Repositories
                 });
             }
 
+            component.Manufacturer = await _context.ComponentManufacturers.FirstOrDefaultAsync(cm => cm.Id == component.ComponentManufacturerId);
             Insert(component);
             await SaveChangesAsync();
             return component;
@@ -81,7 +82,7 @@ namespace Vehicheck.Database.Repositories
         public async Task<PagedResult<ComponentResult>> GetAllComponentsQueriedAsync(ComponentQueryingFilter payload)
         {
             // Sorting + filtering
-            IQueryable<Component> query = GetRecords();
+            IQueryable<Component> query = GetRecords().Include(c => c.Manufacturer);
 
             if (!string.IsNullOrEmpty(payload.Name))
                 query = query.Where(cm => cm.Name.Contains(payload.Name));

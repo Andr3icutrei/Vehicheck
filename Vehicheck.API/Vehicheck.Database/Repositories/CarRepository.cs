@@ -22,6 +22,9 @@ namespace Vehicheck.Database.Repositories
             return await _context.Cars
                 .Include(c => c.User)
                 .Include(c => c.CarModel)
+                .ThenInclude(cm => cm.Components)
+                        .ThenInclude(cmc => cmc.Component) 
+                            .ThenInclude(c => c.Manufacturer)
                 .Include(c => c.CarManufacturer)
                 .Where(c => c.DeletedAt == null)
                 .FirstOrDefaultAsync(c => c.Id == carId);
@@ -33,8 +36,9 @@ namespace Vehicheck.Database.Repositories
                 .Include(c => c.User)
                 .Include(c => c.CarManufacturer)
                 .Include(c => c.CarModel)
-                    .ThenInclude(cm => cm.Components) // CarModel.Components (collection of CarModelComponent)
-                        .ThenInclude(cmc => cmc.Component) // CarModelComponent.Component (navigation)
+                    .ThenInclude(cm => cm.Components) 
+                        .ThenInclude(cmc => cmc.Component) 
+                            .ThenInclude(c => c.Manufacturer)
                 .Where(c => c.DeletedAt == null)
                 .ToListAsync();
         }
@@ -73,7 +77,11 @@ namespace Vehicheck.Database.Repositories
         public async Task<PagedResult<CarResult>> GetCarsQueriedAsync(CarQueryingFilter payload)
         {
             // Sorting + filtering
-            IQueryable<Car> query = GetRecords();
+            IQueryable<Car> query = GetRecords()
+                                        .Include(c => c.CarModel)
+                                        .ThenInclude(cm => cm.Components)
+                                                .ThenInclude(cmc => cmc.Component)
+                                                    .ThenInclude(c => c.Manufacturer);
 
             if(payload.YearOfManufacture.HasValue)
                 query = query.Where(c => c.YearOfManufacture == payload.YearOfManufacture);

@@ -36,8 +36,10 @@ namespace Vehicheck.Database.Repositories
                 .Include(u => u.Cars.Where(c => c.DeletedAt == null))
                 .ThenInclude(c => c.CarManufacturer)
                 .Include(u => u.Cars.Where(c => c.DeletedAt == null))
-                .ThenInclude(c => c.CarModel)
-                .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                    .ThenInclude(c => c.CarModel)
+                        .ThenInclude(carModel => carModel.Components)
+                            .ThenInclude(components => components.Component)
+                                .ThenInclude(component => component.Manufacturer)
                 .OrderBy(u => u.Id)
                 .ToListAsync();
         }
@@ -47,10 +49,12 @@ namespace Vehicheck.Database.Repositories
             return await _context.Users
                 .Where(u => u.DeletedAt == null)
                 .Include(u => u.Cars.Where(c => c.DeletedAt == null))
-                .ThenInclude(c => c.CarManufacturer)
+                    .ThenInclude(c => c.CarManufacturer)
                 .Include(u => u.Cars.Where(c => c.DeletedAt == null))
-                .ThenInclude(c => c.CarModel)
-                .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                    .ThenInclude(c => c.CarModel)
+                        .ThenInclude(carModel => carModel.Components)
+                            .ThenInclude(components => components.Component)
+                                .ThenInclude(component => component.Manufacturer)
                 .OrderBy(u => u.Id)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
@@ -69,7 +73,14 @@ namespace Vehicheck.Database.Repositories
         public async Task<PagedResult<UserResult>> GetUsersQueriedAsync(UserQueryingFilter payload)
         {
             // Sorting + filtering
-            IQueryable<User> query = GetRecords();
+            IQueryable<User> query = GetRecords()
+                                        .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                                            .ThenInclude(c => c.CarManufacturer)
+                                        .Include(u => u.Cars.Where(c => c.DeletedAt == null))
+                                            .ThenInclude(c => c.CarModel)
+                                                .ThenInclude(carModel => carModel.Components)
+                                                    .ThenInclude(components => components.Component)
+                                                        .ThenInclude(component => component.Manufacturer);
 
             if (!string.IsNullOrEmpty(payload.FirstName))
                 query = query.Where(u => u.FirstName.Contains(payload.FirstName));

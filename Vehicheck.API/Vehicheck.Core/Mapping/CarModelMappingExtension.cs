@@ -18,7 +18,7 @@ namespace Vehicheck.Core.Mapping
                 Id = self.Id,
                 Name = self.Name,
                 ReleaseYear = self.ReleaseYear,
-                Manufacturer = self.Manufacturer.ToDto(),
+                Manufacturer = self.Manufacturer.Name,
             };
         }
     }

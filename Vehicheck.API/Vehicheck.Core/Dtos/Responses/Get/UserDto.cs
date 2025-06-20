@@ -18,7 +18,7 @@ namespace Vehicheck.Core.Dtos.Responses.Get
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Password { get; set; }
-        public List<CarDto> Cars { get; set; } = new List<CarDto>();
+        public List<string> Cars { get; set; } = new List<string>();
 
         public static UserDto ToDto(UserResult result)
         {
@@ -31,6 +31,7 @@ namespace Vehicheck.Core.Dtos.Responses.Get
                 Email = result.Email,
                 Phone = result.Phone,
                 Password = result.Password,
+                Cars = result.Cars
             };
         }
     }

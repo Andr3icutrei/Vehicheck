@@ -12,8 +12,6 @@ namespace Vehicheck.Core.Dtos.Responses.Get.Querying
         public string? SortBy { get; set; } = "Id";
         public bool? SortDescending { get; set; } = false;
 
-        public string? SearchTerm { get; set; }
-
         public int? Page { get; set; } = 1;
         public int? PageSize { get; set; } = 1;
 

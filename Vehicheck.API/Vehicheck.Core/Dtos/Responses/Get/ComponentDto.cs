@@ -16,7 +16,7 @@ namespace Vehicheck.Core.Dtos.Responses.Get
         public int Id { get; set; } 
         public string Name { get; set; }
         public decimal Price { get; set; }
-        public ComponentManufacturerDto Manufacturer { get; set; }
+        public string Manufacturer { get; set; }
 
         public static ComponentDto ToDto(ComponentResult result)
         {
@@ -25,7 +25,7 @@ namespace Vehicheck.Core.Dtos.Responses.Get
                 Id = result.Id,
                 Name = result.Name,
                 Price = result.Price,
-                Manufacturer = result.ComponentManufacturer.ToDto(),
+                Manufacturer = result.ComponentManufacturer.Name,
             };
         }
     }

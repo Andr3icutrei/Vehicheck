@@ -13,6 +13,7 @@ namespace Vehicheck.Core.Dtos.Requests.Post
     {
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public List<int> PossibleComponentsToFixIds { get; set; }
 
         public Fix ToEntity()
         {

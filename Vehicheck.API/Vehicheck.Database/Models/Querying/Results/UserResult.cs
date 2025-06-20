@@ -16,6 +16,7 @@ namespace Vehicheck.Database.Models.Querying.Results
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Password { get; set; }
+        public List<string> Cars { get; set; }
 
         public static UserResult ToResult(User self)
         {
@@ -26,6 +27,7 @@ namespace Vehicheck.Database.Models.Querying.Results
                 LastName = self.LastName,
                 Email = self.Email,
                 Phone = self.Phone,
+                Cars = self.Cars.Select(c => c.CarManufacturer.Name + " " + c.CarModel.Name).ToList()
             };
         }
     }

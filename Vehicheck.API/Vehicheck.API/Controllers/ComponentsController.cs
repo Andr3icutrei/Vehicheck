@@ -30,7 +30,7 @@ namespace Vehicheck.API.Controllers
             try
             {
                 var result = await _service.AddComponentAsync(payload);
-                return Ok("Component added");
+                return Ok("Component added!");
             }
             catch (Exception ex)
             {

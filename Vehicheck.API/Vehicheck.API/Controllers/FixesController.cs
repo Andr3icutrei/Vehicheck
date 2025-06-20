@@ -27,12 +27,12 @@ namespace Vehicheck.API.Controllers
             [HttpPost]
             [ProducesResponseType(StatusCodes.Status200OK)]
             [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-            public async Task<ActionResult<Fix>> AddFixAsync([FromBody] AddFixRequest payload)
+            public async Task<ActionResult> AddFixAsync([FromBody] AddFixRequest payload)
             {
                 try
                 {
                     var result = await _service.AddFixAsync(payload);
-                    return Ok(result);
+                    return Ok("Fix added!");
                 }
                 catch (Exception ex)
                 {

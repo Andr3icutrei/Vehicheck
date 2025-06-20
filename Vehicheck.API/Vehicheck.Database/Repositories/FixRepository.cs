@@ -22,8 +22,17 @@ namespace Vehicheck.Database.Repositories
             _context = databaseContext;
         }
 
-        public async Task<Fix> AddFixAsync(Fix fix)
+        public async Task<Fix> AddFixAsync(Fix fix, List<int> possibleComponentsToFix)
         {
+            foreach(var component in possibleComponentsToFix)
+            {
+                fix.Components.Add(new ComponentFix
+                {
+                    ComponentId = component,
+                    FixId = fix.Id
+                });
+            }
+
             Insert(fix);
             await _context.SaveChangesAsync();
             return fix;
@@ -34,7 +43,8 @@ namespace Vehicheck.Database.Repositories
             return await _context.Fixes
                 .Where(f => f.DeletedAt == null)
                 .Include(f => f.Components.Where(cf => cf.DeletedAt == null))
-                .ThenInclude(cf => cf.Component)
+                    .ThenInclude(cf => cf.Component)
+                        .ThenInclude(c => c.Manufacturer)
                 .OrderBy(f => f.Id)
                 .ToListAsync();  
         }
@@ -44,7 +54,8 @@ namespace Vehicheck.Database.Repositories
             return await _context.Fixes
                 .Where(f => f.DeletedAt == null)
                 .Include(f => f.Components.Where(cf => cf.DeletedAt == null))
-                .ThenInclude(cf => cf.Component)
+                    .ThenInclude(cf => cf.Component)
+                        .ThenInclude(c => c.Manufacturer)
                 .FirstOrDefaultAsync(f => f.Id == id);
         }
 
@@ -62,7 +73,10 @@ namespace Vehicheck.Database.Repositories
         public async Task<PagedResult<FixResult>> GetFixesQueryiedAsync(FixQueryingFilter payload)
         {
             // Sorting + filtering
-            IQueryable<Fix> query = GetRecords();
+            IQueryable<Fix> query = GetRecords()
+                                        .Include(f => f.Components.Where(cf => cf.DeletedAt == null))
+                                            .ThenInclude(cf => cf.Component)
+                                                .ThenInclude(c => c.Manufacturer);
 
             if (!string.IsNullOrEmpty(payload.Description))
                 query = query.Where(f => f.Description.Contains(payload.Description));
