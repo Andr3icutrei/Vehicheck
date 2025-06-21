@@ -29,7 +29,7 @@ namespace Vehicheck.Core.Services
 
         public async Task<Fix> AddFixAsync(AddFixRequest payload)
         {
-            return await _repository.AddFixAsync(payload.ToEntity());
+            return await _repository.AddFixAsync(payload.ToEntity(),payload.PossibleComponentsToFixIds);
         }
 
         public async Task<FixDto?> GetFixAsync(int id)
@@ -49,6 +49,7 @@ namespace Vehicheck.Core.Services
             var result = await _repository.GetAllFixesAsync();
             return result.Select(f => f.ToDto()).ToList();
         }
+
         public async Task<bool> DeleteFixAsync(int id)
         {
             var fix = await _repository.GetFirstOrDefaultAsync(id);

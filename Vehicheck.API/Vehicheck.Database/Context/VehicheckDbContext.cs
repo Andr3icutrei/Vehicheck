@@ -51,10 +51,26 @@ namespace Vehicheck.Database.Context
                 entity.HasIndex(e => e.Email)
                     .IsUnique();
             });
+
+            ApplySoftDeleteFilter<Car>(modelBuilder);
+            ApplySoftDeleteFilter<CarManufacturer>(modelBuilder);
+            ApplySoftDeleteFilter<CarModel>(modelBuilder);
+            ApplySoftDeleteFilter<CarModelComponent>(modelBuilder);
+            ApplySoftDeleteFilter<Component>(modelBuilder);
+            ApplySoftDeleteFilter<ComponentFix>(modelBuilder);
+            ApplySoftDeleteFilter<ComponentManufacturer>(modelBuilder);
+            ApplySoftDeleteFilter<Fix>(modelBuilder);
+            ApplySoftDeleteFilter<User>(modelBuilder);
+
+        }
+
+        private void ApplySoftDeleteFilter<T>(ModelBuilder modelBuilder) where T : class
+        {
+            modelBuilder.Entity<T>().HasQueryFilter(e => EF.Property<DateTime?>(e, "DeletedAt") == null);
         }
 
         public DbSet<Car> Cars { get; set; }
-        public DbSet<CarComponent> CarsComponents { get;set; }
+        public DbSet<CarModelComponent> CarModelsComponents { get;set; }
         public DbSet<CarManufacturer> CarManufacturers { get; set; }
         public DbSet<CarModel> CarModels { get; set; }
         public DbSet<Component> Components { get; set; }

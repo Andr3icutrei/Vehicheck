@@ -65,30 +65,6 @@ namespace Vehicheck.Database.Migrations
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("Vehicheck.Database.Entities.CarComponent", b =>
-                {
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ComponentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("CarId", "ComponentId");
-
-                    b.HasIndex("ComponentId");
-
-                    b.ToTable("CarsComponents");
-                });
-
             modelBuilder.Entity("Vehicheck.Database.Entities.CarManufacturer", b =>
                 {
                     b.Property<int>("Id")
@@ -149,6 +125,30 @@ namespace Vehicheck.Database.Migrations
                     b.HasIndex("CarManufacturerId");
 
                     b.ToTable("CarModels");
+                });
+
+            modelBuilder.Entity("Vehicheck.Database.Entities.CarModelComponent", b =>
+                {
+                    b.Property<int>("CarModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CarModelId", "ComponentId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("CarModelsComponents");
                 });
 
             modelBuilder.Entity("Vehicheck.Database.Entities.Component", b =>
@@ -368,25 +368,6 @@ namespace Vehicheck.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Vehicheck.Database.Entities.CarComponent", b =>
-                {
-                    b.HasOne("Vehicheck.Database.Entities.Car", "Car")
-                        .WithMany("Components")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Vehicheck.Database.Entities.Component", "Component")
-                        .WithMany("Cars")
-                        .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-
-                    b.Navigation("Component");
-                });
-
             modelBuilder.Entity("Vehicheck.Database.Entities.CarModel", b =>
                 {
                     b.HasOne("Vehicheck.Database.Entities.CarManufacturer", "Manufacturer")
@@ -396,6 +377,25 @@ namespace Vehicheck.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Manufacturer");
+                });
+
+            modelBuilder.Entity("Vehicheck.Database.Entities.CarModelComponent", b =>
+                {
+                    b.HasOne("Vehicheck.Database.Entities.CarModel", "CarModel")
+                        .WithMany("Components")
+                        .HasForeignKey("CarModelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Vehicheck.Database.Entities.Component", "Component")
+                        .WithMany("Models")
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CarModel");
+
+                    b.Navigation("Component");
                 });
 
             modelBuilder.Entity("Vehicheck.Database.Entities.Component", b =>
@@ -428,11 +428,6 @@ namespace Vehicheck.Database.Migrations
                     b.Navigation("Fix");
                 });
 
-            modelBuilder.Entity("Vehicheck.Database.Entities.Car", b =>
-                {
-                    b.Navigation("Components");
-                });
-
             modelBuilder.Entity("Vehicheck.Database.Entities.CarManufacturer", b =>
                 {
                     b.Navigation("Cars");
@@ -443,13 +438,15 @@ namespace Vehicheck.Database.Migrations
             modelBuilder.Entity("Vehicheck.Database.Entities.CarModel", b =>
                 {
                     b.Navigation("Cars");
+
+                    b.Navigation("Components");
                 });
 
             modelBuilder.Entity("Vehicheck.Database.Entities.Component", b =>
                 {
-                    b.Navigation("Cars");
-
                     b.Navigation("Fixes");
+
+                    b.Navigation("Models");
                 });
 
             modelBuilder.Entity("Vehicheck.Database.Entities.ComponentManufacturer", b =>

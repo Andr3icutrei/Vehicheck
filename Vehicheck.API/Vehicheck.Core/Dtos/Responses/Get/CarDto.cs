@@ -15,7 +15,7 @@ namespace Vehicheck.Core.Dtos.Responses.Get
         public int CarMileage { get; set; }
         public string CarModel { get; set; }
         public string CarManufacturer { get; set; } 
-        public List<ComponentDto> Components { get; set; } = new List<ComponentDto>();
+        public List<string> Components { get; set; } = new List<string>();
 
         public static CarDto ToDto(CarResult result)
         {
@@ -25,7 +25,8 @@ namespace Vehicheck.Core.Dtos.Responses.Get
                 YearOfManufacture = result.YearOfManufacture,
                 CarMileage = result.CarMileage,
                 CarManufacturer = result.CarManufacturer,
-                CarModel = result.CarModel
+                CarModel = result.CarModel,
+                Components = result.Components
             };
         }
     }

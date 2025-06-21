@@ -11,7 +11,7 @@ namespace Vehicheck.Database.Repositories.Interfaces
 {
     public interface IFixRepository : IBaseRepository<Fix>
     {
-        Task<Fix> AddFixAsync(Fix fix);
+        Task<Fix> AddFixAsync(Fix fix, List<int> possibleComponentsToFix);
         Task<PagedResult<FixResult>> GetFixesQueryiedAsync(FixQueryingFilter payload);
         Task<Fix?> GetFixAsync(int id);
         Task<List<Fix>> GetAllFixesAsync();

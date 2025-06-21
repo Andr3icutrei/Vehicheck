@@ -14,6 +14,7 @@ namespace Vehicheck.Database.Models.Querying.Results
         public int CarMileage { get; set; }
         public string CarModel { get; set; }
         public string CarManufacturer { get; set; }
+        public List<string> Components { get; set; }
 
         public static CarResult ToResult(Car self)
         {
@@ -24,6 +25,7 @@ namespace Vehicheck.Database.Models.Querying.Results
                 CarMileage = self.CarMileage,
                 CarManufacturer = self.CarManufacturer.Name,
                 CarModel = self.CarModel.Name,
+                Components = self.CarModel.Components.Select(c => c.Component.Name).ToList()
             };
         }
     }

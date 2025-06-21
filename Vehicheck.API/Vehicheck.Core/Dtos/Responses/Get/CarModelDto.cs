@@ -15,7 +15,7 @@ namespace Vehicheck.Core.Dtos.Responses.Get
         [MaxLength(30)]
         public string Name { get; set; }
         public int ReleaseYear { get; set; }
-        public CarManufacturerDto Manufacturer { get; set; }
+        public string Manufacturer { get; set; }
 
         public static CarModelDto ToDto(CarModelResult result)
         {
@@ -23,7 +23,8 @@ namespace Vehicheck.Core.Dtos.Responses.Get
             {
                 Id = result.Id,
                 Name = result.Name,
-                ReleaseYear = result.ReleaseYear
+                ReleaseYear = result.ReleaseYear,
+                Manufacturer = result.Manufacturer
             };
         }
     }

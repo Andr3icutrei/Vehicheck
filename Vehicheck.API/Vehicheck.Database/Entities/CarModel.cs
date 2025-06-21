@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace Vehicheck.Database.Entities
 {
-    public class CarModel : BaseEntity
-    {
-        [MaxLength(30)]
-        public string Name { get; set; }
-        public int ReleaseYear { get; set; }
+        public class CarModel : BaseEntity
+        {
+            [MaxLength(30)]
+            public string Name { get; set; }
+            public int ReleaseYear { get; set; }
 
-        //navigation properties 
-        public int CarManufacturerId { get; set; }
-        public CarManufacturer Manufacturer { get; set; }
+            //navigation properties 
+            public int CarManufacturerId { get; set; }
+            public CarManufacturer Manufacturer { get; set; }
 
-        public ICollection<Car> Cars { get; set; } = new List<Car>();   
-    }
+            public ICollection<Car> Cars { get; set; } = new List<Car>();
+            public ICollection<CarModelComponent> Components { get; set; } = new List<CarModelComponent>();
+        }
 }

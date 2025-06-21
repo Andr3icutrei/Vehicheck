@@ -14,6 +14,7 @@ namespace Vehicheck.Core.Dtos.Requests.Post
         public string Name { get; set; }
         public decimal Price { get; set; }
         public int ComponentManufacturerId { get; set; }
+        public List<int> CarModelIds { get; set; }
 
         public Component ToEntity()
         {

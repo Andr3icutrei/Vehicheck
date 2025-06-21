@@ -22,9 +22,10 @@ namespace Vehicheck.Database.Repositories
             return await _context.Cars
                 .Include(c => c.User)
                 .Include(c => c.CarModel)
+                .ThenInclude(cm => cm.Components)
+                        .ThenInclude(cmc => cmc.Component) 
+                            .ThenInclude(c => c.Manufacturer)
                 .Include(c => c.CarManufacturer)
-                .Include(c => c.Components.Where(c => c.DeletedAt == null))
-                    .ThenInclude(cc => cc.Component)
                 .Where(c => c.DeletedAt == null)
                 .FirstOrDefaultAsync(c => c.Id == carId);
         }
@@ -33,10 +34,11 @@ namespace Vehicheck.Database.Repositories
         {
             return await _context.Cars
                 .Include(c => c.User)
-                .Include(c => c.CarModel)
                 .Include(c => c.CarManufacturer)
-                .Include(c => c.Components.Where(c => c.DeletedAt == null))
-                .ThenInclude(cc => cc.Component)
+                .Include(c => c.CarModel)
+                    .ThenInclude(cm => cm.Components) 
+                        .ThenInclude(cmc => cmc.Component) 
+                            .ThenInclude(c => c.Manufacturer)
                 .Where(c => c.DeletedAt == null)
                 .ToListAsync();
         }
@@ -45,15 +47,6 @@ namespace Vehicheck.Database.Repositories
         {
             if (car == null)
                 throw new ArgumentNullException(nameof(car));
-
-            var relatedComponents = await _context.CarsComponents
-                .Where(c => c.CarId == car.Id)
-                .ToListAsync();
-
-            foreach (var component in relatedComponents)
-            {
-                car.Components.Add(component);
-            }
 
             Insert(car);
             await SaveChangesAsync();
@@ -84,7 +77,11 @@ namespace Vehicheck.Database.Repositories
         public async Task<PagedResult<CarResult>> GetCarsQueriedAsync(CarQueryingFilter payload)
         {
             // Sorting + filtering
-            IQueryable<Car> query = GetRecords();
+            IQueryable<Car> query = GetRecords()
+                                        .Include(c => c.CarModel)
+                                        .ThenInclude(cm => cm.Components)
+                                                .ThenInclude(cmc => cmc.Component)
+                                                    .ThenInclude(c => c.Manufacturer);
 
             if(payload.YearOfManufacture.HasValue)
                 query = query.Where(c => c.YearOfManufacture == payload.YearOfManufacture);

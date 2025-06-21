@@ -18,15 +18,7 @@ namespace Vehicheck.Core.Mapping
                 Id = self.Id,
                 Description = self.Description,
                 Price = self.Price,
-                Components = self.Components
-                    .Where(cf => cf.DeletedAt == null && cf.Component != null)
-                    .Select(cf => new ComponentDto
-                    {
-                        Id = cf.Component!.Id,
-                        Name = cf.Component!.Name,
-                        Price = cf.Component!.Price,
-                        Manufacturer = cf.Component!.Manufacturer!.ToDto()
-                    }).ToList()
+                FixableComponents = self.Components.Select(c => c.Component.Name + ", " + c.Component.Manufacturer.Name).ToList()
             };
         }
     }

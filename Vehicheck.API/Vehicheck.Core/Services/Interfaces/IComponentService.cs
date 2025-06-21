@@ -16,7 +16,7 @@ namespace Vehicheck.Core.Services.Interfaces
         Task<ComponentDto?> GetComponentAsync(int id);
         Task<PagedResponse<ComponentDto>> GetComponentsQueriedAsync(ComponentQueryRequestDto payload);
         Task<List<ComponentDto>> GetComponentsAsync();
-        Task<Component> AddComponentAsync(AddComponentRequest payload);
+        Task<ComponentDto> AddComponentAsync(AddComponentRequest payload);
         Task<bool> DeleteComponentAsync(int id);
         Task<ComponentDto> PatchComponentAsync(PatchComponentRequest payload); 
     }

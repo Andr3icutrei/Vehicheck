@@ -19,6 +19,7 @@ namespace Vehicheck.Core.Mapping
                 Id = self.Id,
                 Name = self.Name,
                 Price = self.Price,
+                Manufacturer = self.Manufacturer.Name,
             };
         }
     }

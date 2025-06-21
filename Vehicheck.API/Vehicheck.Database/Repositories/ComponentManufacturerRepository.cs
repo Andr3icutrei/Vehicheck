@@ -32,10 +32,10 @@ namespace Vehicheck.Database.Repositories
 
         public async Task<List<ComponentManufacturer>> GetAllComponentsAsync()
         {
-            return await _context.ComponentManufacturers.
-                Where(cm => cm.DeletedAt == null).
-                Include(cm => cm.Components.Where(c => c.DeletedAt == null)).
-                OrderBy(cm => cm.Id).
+            return await _context.ComponentManufacturers
+                .Where(cm => cm.DeletedAt == null)
+                .Include(cm => cm.Components.Where(c => c.DeletedAt == null))
+                .OrderBy(cm => cm.Id).
                 ToListAsync();
         }
 
@@ -62,7 +62,7 @@ namespace Vehicheck.Database.Repositories
         public async Task<PagedResult<ComponentManufacturerResult>> GetComponentmanufacturersQueriedAsync(ComponentManufacturerQueryingFilter payload)
         {
             // Sorting + filtering
-            IQueryable<ComponentManufacturer> query = GetRecords();
+            IQueryable<ComponentManufacturer> query = GetRecords().Include(cm => cm.Components.Where(c => c.DeletedAt == null));
 
             if (!string.IsNullOrEmpty(payload.Name))
                 query = query.Where(cm => cm.Name.Contains(payload.Name));

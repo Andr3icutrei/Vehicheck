@@ -12,6 +12,7 @@ namespace Vehicheck.Database.Models.Querying.Results
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public ComponentManufacturer ComponentManufacturer { get; set; }
 
         public static ComponentResult ToResult(Component self)
         {
@@ -20,6 +21,7 @@ namespace Vehicheck.Database.Models.Querying.Results
                 Id = self.Id,
                 Name = self.Name,
                 Price = self.Price,
+                ComponentManufacturer = self.Manufacturer
             };
         }
     }

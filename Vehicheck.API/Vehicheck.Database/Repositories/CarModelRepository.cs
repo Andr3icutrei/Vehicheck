@@ -70,7 +70,7 @@ namespace Vehicheck.Database.Repositories
         public async Task<PagedResult<CarModelResult>> GetCarModelQueryiedAsync(CarModelQueryingFilter payload)
         {
             // Sorting + filtering
-            IQueryable<CarModel> query = GetRecords();
+            IQueryable<CarModel> query = GetRecords().Include(cm => cm.Manufacturer).Where(cm => cm.Manufacturer.DeletedAt == null);
 
             if (!string.IsNullOrEmpty(payload.Name))
                 query = query.Where(cm => cm.Name.Contains(payload.Name));

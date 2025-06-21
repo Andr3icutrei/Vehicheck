@@ -20,7 +20,7 @@ namespace Vehicheck.Core.Mapping
                 LastName = self.LastName,
                 Email = self.Email,
                 Phone = self.Phone,
-                Cars = self.Cars.ToList().Select(c => c.ToDto()).ToList()
+                Cars = self.Cars.Select(c => c.CarManufacturer.Name + " " + c.CarModel.Name).ToList()
             };
         }
     }
