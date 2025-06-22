@@ -26,6 +26,8 @@ namespace Vehicheck.API.Controllers
             _logger = logger;
         }
 
+
+        [AllowAnonymous]
         [HttpPost("add-user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
