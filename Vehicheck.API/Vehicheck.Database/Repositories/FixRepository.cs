@@ -11,6 +11,7 @@ using Vehicheck.Database.Extensions;
 using Vehicheck.Database.Models.Querying.Filters;
 using Vehicheck.Database.Models.Querying.Results;
 using Vehicheck.Database.Repositories.Interfaces;
+using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.Database.Repositories
 {
@@ -22,17 +23,8 @@ namespace Vehicheck.Database.Repositories
             _context = databaseContext;
         }
 
-        public async Task<Fix> AddFixAsync(Fix fix, List<int> possibleComponentsToFix)
+        public async Task<Fix> AddFixAsync(Fix fix)
         {
-            foreach(var component in possibleComponentsToFix)
-            {
-                fix.Components.Add(new ComponentFix
-                {
-                    ComponentId = component,
-                    FixId = fix.Id
-                });
-            }
-
             Insert(fix);
             await _context.SaveChangesAsync();
             return fix;

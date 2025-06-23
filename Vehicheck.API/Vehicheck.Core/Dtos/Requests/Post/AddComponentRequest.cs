@@ -18,12 +18,21 @@ namespace Vehicheck.Core.Dtos.Requests.Post
 
         public Component ToEntity()
         {
-            return new Component
+            var component = new Component
             {
                 Name = Name,
                 Price = Price,
-                ComponentManufacturerId = ComponentManufacturerId
+                ComponentManufacturerId = ComponentManufacturerId,
+                Models = new List<CarModelComponent>() 
             };
+
+            component.Models = CarModelIds.Select(cmId => new CarModelComponent
+            {
+                CarModelId = cmId,
+                ComponentId = component.Id
+            }).ToList();
+
+            return component;
         }
     }
 }

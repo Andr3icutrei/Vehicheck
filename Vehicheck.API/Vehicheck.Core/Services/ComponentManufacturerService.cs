@@ -27,9 +27,9 @@ namespace Vehicheck.Core.Services
             _repository = repository;
         }
 
-        public async Task<ComponentManufacturer> AddComponentManufactureAsync(AddComponentManufacturerRequest payload)
+        public async Task<ComponentManufacturerDto> AddComponentManufactureAsync(AddComponentManufacturerRequest payload)
         {
-            return await _repository.AddComponentAsync(payload.ToEntity());
+            return (await _repository.AddComponentAsync(payload.ToEntity())).ToDto();
         }
 
         public async Task<ComponentManufacturerDto?> GetComponentManufacturerAsync(int id)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,23 +11,23 @@ namespace Vehicheck.Database.PatchHelpers
 {
     public static class PatchRequestToEntity
     {
-        public static void PatchFrom<TDto,TEntity>(this TEntity entity, TDto dto) 
-            where TEntity : BaseEntity
-            where TDto : class
+        public static void PatchFrom<TDto, TEntity>(this TEntity entity, TDto dto)
+           where TEntity : BaseEntity
+           where TDto : class
         {
             var entityType = entity.GetType();
             var dtoType = dto.GetType();
 
             var dtoProperties = dtoType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            foreach(var property in dtoProperties)
+            foreach (var property in dtoProperties)
             {
-                if (!property.CanRead) 
+                if (!property.CanRead)
                     continue;
 
                 var entityProperty = entityType.GetProperty(property.Name, BindingFlags.Public | BindingFlags.Instance);
 
-                if(entityProperty == null || !entityProperty.CanWrite) 
+                if (entityProperty == null || !entityProperty.CanWrite)
                     continue;
 
                 var dtoValue = property.GetValue(dto);

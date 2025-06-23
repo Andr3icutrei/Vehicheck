@@ -17,11 +17,21 @@ namespace Vehicheck.Core.Dtos.Requests.Post
 
         public Fix ToEntity()
         {
-            return new Fix
+            Fix f =  new Fix
             {
                 Description = Description,
-                Price = Price
+                Price = Price,
+                Components = new List<ComponentFix>()
             };
+
+            f.Components = PossibleComponentsToFixIds.Select(cId => new ComponentFix
+                {
+                    FixId = f.Id,
+                    ComponentId = cId
+                }
+            ).ToList();
+
+            return f;
         }
     }
 }

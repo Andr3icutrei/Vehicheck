@@ -13,7 +13,7 @@ namespace Vehicheck.Core.Services.Interfaces
 {
     public interface ICarManufacturerService
     {
-        Task<CarManufacturer> AddCarManufacturerAsync(AddCarManufacturerRequest payload);
+        Task<CarManufacturerDto> AddCarManufacturerAsync(AddCarManufacturerRequest payload);
         Task<CarManufacturerDto?> GetCarManufacturerAsync(int id);
         Task<List<CarManufacturerDto>> GetAllCarManufacturersAsync();
         Task<PagedResponse<CarManufacturerDto>> GetCarManufacturersQueriedAsync(CarManufacturerQueryRequestDto payload);

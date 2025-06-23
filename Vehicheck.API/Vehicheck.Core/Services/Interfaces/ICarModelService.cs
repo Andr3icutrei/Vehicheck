@@ -16,7 +16,7 @@ namespace Vehicheck.Core.Services.Interfaces
         Task<CarModelDto?> GetCarModelAsync(int id);
         Task<PagedResponse<CarModelDto>> GetCarModelsQueryiedAsync(CarModelQueryRequestDto payload);
         Task<List<CarModelDto>> GetCarModelsAsync();
-        Task<CarModel> AddCarModelAsync(AddCarModelRequest payload);
+        Task<CarModelDto> AddCarModelAsync(AddCarModelRequest payload);
         Task<bool> DeleteCarModelAsync(int id);
         Task<CarModelDto> PatchCarModelAsync(PatchCarModelRequest payload);
     }

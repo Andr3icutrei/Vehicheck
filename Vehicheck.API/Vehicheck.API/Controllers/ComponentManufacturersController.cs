@@ -27,7 +27,7 @@ namespace Vehicheck.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ComponentManufacturer>> AddComponentManufacturerAsync([FromBody] AddComponentManufacturerRequest payload)
+        public async Task<ActionResult<ComponentManufacturerDto>> AddComponentManufacturerAsync([FromBody] AddComponentManufacturerRequest payload)
         {
             try
             {

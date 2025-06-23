@@ -27,11 +27,11 @@ namespace Vehicheck.Core.Services
             _repository = repository;
         }
 
-        public async Task<User> AddUserAsync(AddUserRequest payload)
+        public async Task<UserDto> AddUserAsync(AddUserRequest payload)
         {
             var user = payload.ToEntity();
             user.SetPassword(payload.Password);
-            return await _repository.AddUserAsync(user);
+            return (await _repository.AddUserAsync(user)).ToDto();
         }
 
         public async Task<UserDto?> GetUserAsync(int id)

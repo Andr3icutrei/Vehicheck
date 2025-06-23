@@ -11,6 +11,7 @@ using Vehicheck.Database.Extensions;
 using Vehicheck.Database.Models.Querying.Filters;
 using Vehicheck.Database.Models.Querying.Results;
 using Vehicheck.Database.Repositories.Interfaces;
+using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.Database.Repositories
 {

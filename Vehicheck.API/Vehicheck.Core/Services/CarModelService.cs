@@ -20,22 +20,30 @@ namespace Vehicheck.Core.Services
 {
     public class CarModelService : ICarModelService
     {
-        private readonly ICarModelRepository _repository;
+        private readonly ICarModelRepository _carModelRepository;
+        private readonly ICarManufacturerRepository _manufacturerRepository;
 
-        public CarModelService(ICarModelRepository repository)
+        public CarModelService(ICarModelRepository carModelRepository, ICarManufacturerRepository carManufacturerRepository)
         {
-            _repository = repository;
+            _carModelRepository = carModelRepository;
+            _manufacturerRepository = carManufacturerRepository;
         }
 
-        public async Task<CarModel> AddCarModelAsync(AddCarModelRequest payload)
+        public async Task<CarModelDto> AddCarModelAsync(AddCarModelRequest payload)
         {
-            var result = await _repository.AddCarModelAsync(payload.ToEntity());
-            return result;
+            var carManufacturer = await _manufacturerRepository.GetCarManufacturerAsync(payload.CarManufacturerId);
+            if (carManufacturer == null)
+            {
+                throw new EntityNotFoundException(nameof(payload.CarManufacturerId), payload.CarManufacturerId);    
+            }
+
+            var result = await _carModelRepository.AddCarModelAsync(payload.ToEntity());
+            return result.ToDto();
         }
 
         public async Task<CarModelDto?> GetCarModelAsync(int id)
         {
-            var result =  await _repository.GetCarModelAsync(id);
+            var result =  await _carModelRepository.GetCarModelAsync(id);
 
             if (result == null)
             {
@@ -47,23 +55,23 @@ namespace Vehicheck.Core.Services
 
         public async Task<List<CarModelDto>> GetCarModelsAsync()
         {
-            var result = await _repository.GetAllCarModelsAsync();
+            var result = await _carModelRepository.GetAllCarModelsAsync();
             return result.Select(cm => cm.ToDto()).ToList();
         }
 
         public async Task<bool> DeleteCarModelAsync(int id)
         {
-            var carModel = await _repository.GetFirstOrDefaultAsync(id);
+            var carModel = await _carModelRepository.GetFirstOrDefaultAsync(id);
             if (carModel == null)
             {
                 throw new EntityNotFoundException("CarModel", id);
             }
-            return await _repository.DeleteCarModelAsync(id);
+            return await _carModelRepository.DeleteCarModelAsync(id);
         }
 
         public async Task<CarModelDto> PatchCarModelAsync(PatchCarModelRequest payload)
         {
-            CarModel? carModel = await _repository.GetCarModelAsync(payload.Id);
+            CarModel? carModel = await _carModelRepository.GetCarModelAsync(payload.Id);
 
             if (carModel == null)
             {
@@ -74,14 +82,14 @@ namespace Vehicheck.Core.Services
 
             carModel.ModifiedAt = DateTime.UtcNow;
 
-            await _repository.SaveChangesAsync();
+            await _carModelRepository.SaveChangesAsync();
 
             return carModel.ToDto();
         }
 
         public async Task<PagedResponse<CarModelDto>> GetCarModelsQueryiedAsync(CarModelQueryRequestDto payload)
         {
-            PagedResult<CarModelResult> result = await _repository.GetCarModelQueryiedAsync(payload.ToQueryingFilter());
+            PagedResult<CarModelResult> result = await _carModelRepository.GetCarModelQueryiedAsync(payload.ToQueryingFilter());
             return new PagedResponse<CarModelDto>
             {
                 Data = result.Data.Select(cm => CarModelDto.ToDto(cm)),

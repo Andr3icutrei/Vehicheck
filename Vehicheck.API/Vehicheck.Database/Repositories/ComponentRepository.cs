@@ -11,6 +11,7 @@ using Vehicheck.Database.Models.Querying.Filters;
 using Microsoft.IdentityModel.Tokens;
 using Vehicheck.Database.Extensions;
 using Vehicheck.Database.Models.Querying.Results;
+using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.Database.Repositories
 {
@@ -40,19 +41,6 @@ namespace Vehicheck.Database.Repositories
 
         public async Task<Component> AddComponentAsync(Component component, List<int> CarModelIds)
         {
-            if (component == null)
-                throw new ArgumentNullException(nameof(component));
-
-            foreach (int id in CarModelIds)
-            {
-                component.Models.Add(new CarModelComponent
-                {
-                    CarModelId = id,
-                    ComponentId = component.Id
-                });
-            }
-
-            component.Manufacturer = await _context.ComponentManufacturers.FirstOrDefaultAsync(cm => cm.Id == component.ComponentManufacturerId);
             Insert(component);
             await SaveChangesAsync();
             return component;
@@ -67,6 +55,7 @@ namespace Vehicheck.Database.Repositories
             await SaveChangesAsync();
             return component;
         }
+
         public async Task<bool> DeleteComponentAsync(int id)
         {
             var component = await GetFirstOrDefaultAsync(id);
