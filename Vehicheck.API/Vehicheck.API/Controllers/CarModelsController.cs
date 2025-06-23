@@ -25,12 +25,16 @@ namespace Vehicheck.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CarModel>> AddCarModelAsync([FromBody] AddCarModelRequest payload)
+        public async Task<ActionResult<CarModelDto>> AddCarModelAsync([FromBody] AddCarModelRequest payload)
         {
             try
             {
                 var result = await _service.AddCarModelAsync(payload);
                 return Ok(result);
+            }
+            catch (EntityNotFoundException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

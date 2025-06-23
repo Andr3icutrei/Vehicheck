@@ -24,13 +24,18 @@ namespace Vehicheck.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Car>> AddCarAsync([FromBody] AddCarRequest payload)
+        public async Task<ActionResult<CarDto>> AddCarAsync([FromBody] AddCarRequest payload)
         {
             try
             {
                 var result = await _service.AddCarAsync(payload);
                 return Ok(result);
+            }
+            catch (EntityNotFoundException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

@@ -27,7 +27,7 @@ namespace Vehicheck.API.Controllers
         [HttpPost("add-user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> AddUserAsync([FromBody] AddUserRequest payload)
+        public async Task<ActionResult<UserDto>> AddUserAsync([FromBody] AddUserRequest payload)
         {
             try
             {

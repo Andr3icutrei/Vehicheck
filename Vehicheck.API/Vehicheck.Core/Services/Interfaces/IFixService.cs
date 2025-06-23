@@ -16,7 +16,7 @@ namespace Vehicheck.Core.Services.Interfaces
         Task<FixDto?> GetFixAsync(int id);
         Task<PagedResponse<FixDto>> GetFixesQueryiedAsync(FixQueryRequestDto payload);
         Task<List<FixDto>> GetFixesAsync();
-        Task<Fix> AddFixAsync(AddFixRequest payload);
+        Task<FixDto> AddFixAsync(AddFixRequest payload);
         Task<bool> DeleteFixAsync(int id);
         Task<FixDto> PatchFixAsync(PatchFixRequest payload);
     }

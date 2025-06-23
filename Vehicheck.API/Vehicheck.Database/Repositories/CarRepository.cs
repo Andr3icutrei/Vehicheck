@@ -11,12 +11,14 @@ using Vehicheck.Database.Extensions;
 using Vehicheck.Database.Models.Querying.Filters;
 using Vehicheck.Database.Models.Querying.Results;
 using Vehicheck.Database.Repositories.Interfaces;
+using Vehicheck.Infrastructure.Exceptions;
 
 namespace Vehicheck.Database.Repositories
 {
     public class CarRepository(VehicheckDbContext databaseContext) : BaseRepository<Car>(databaseContext), ICarRepository
     {
         private readonly VehicheckDbContext _context = databaseContext;
+
         public async Task<Car?> GetCarAsync(int carId)
         {
             return await _context.Cars

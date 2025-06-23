@@ -20,6 +20,7 @@ namespace Vehicheck.Core.Mapping
                 Name = self.Name,
                 Price = self.Price,
                 Manufacturer = self.Manufacturer.Name,
+                CarModelIds = self.Models.Select(carModelComponent => carModelComponent.CarModelId).ToList()
             };
         }
     }

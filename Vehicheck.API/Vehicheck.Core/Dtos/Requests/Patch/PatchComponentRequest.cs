@@ -20,5 +20,7 @@ namespace Vehicheck.Core.Dtos.Requests.Patch
         public decimal? Price { get; set; }
 
         public int? ComponentManufacturerId { get; set; }
+
+        public List<int>? CarModelIds { get; set; }
     }
 }

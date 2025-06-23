@@ -34,6 +34,10 @@ namespace Vehicheck.API.Controllers
                     var result = await _service.AddFixAsync(payload);
                     return Ok("Fix added!");
                 }
+                catch (EntityNotFoundException)
+                {
+                    throw;
+                }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Error adding fix");

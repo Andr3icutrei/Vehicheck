@@ -17,5 +17,6 @@ namespace Vehicheck.Core.Dtos.Requests.Patch
 
         [Precision(10, 2)]
         public decimal? Price { get; set; }
+        public List<int>? PossibleComponentsToFixIds { get; set; }
     }
 }
